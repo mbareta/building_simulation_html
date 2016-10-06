@@ -39,10 +39,12 @@
 .building_simulation_block #buildingSimulationContent h1 {
   font-family: Lora;
   text-align: left;
+  color: white;
 }
 
 .building_simulation_block #buildingSimulationContent h4 {
   font-family: Lora;
+  color: white;
   font-size: 24px;
   margin: 2em;
 }

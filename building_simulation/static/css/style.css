@@ -11,10 +11,12 @@
 
 .building_simulation_block a {
   cursor: pointer;
+  color: white;
 }
 
 .building_simulation_block span, .building_simulation_block button, .building_simulation_block a {
   font-family: Roboto;
+  color: white;
 }
 
 .building_simulation_block button {
@@ -24,6 +26,8 @@
   color: white;
   box-shadow: 0 0 0;
   text-shadow: 0 0 0;
+  border-radius: 0;
+  font-weight: 400;
 }
 
 .building_simulation_block button:hover {
@@ -50,7 +54,7 @@
 .building_simulation_block #valueBoard,
 .building_simulation_block #blockMenuResidential,
 .building_simulation_block #blockMenuCommercial {
-  position: absolute;
+  position: fixed;
   padding: 1em;
   background-color: black;
   color: white;
@@ -61,7 +65,7 @@
   left: 20px;
   bottom: 20px;
   width: 350px;
-  height: 280px;
+  height: 330px;
   display: none;
 }
 
