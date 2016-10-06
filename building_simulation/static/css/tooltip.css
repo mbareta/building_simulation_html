@@ -1,0 +1,89 @@
+/**
+ * Tooltip Styles
+ */
+
+/* Base styles for the element that has a tooltip */
+.building_simulation_block [data-tooltip]
+{
+  position: relative;
+  cursor: pointer;
+}
+
+/* Base styles for the entire tooltip */
+.building_simulation_block [data-tooltip]:before,
+.building_simulation_block [data-tooltip]:after
+{
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+/* Show the entire tooltip on hover and focus */
+.building_simulation_block [data-tooltip]:before,
+.building_simulation_block [data-tooltip]:after,
+.building_simulation_block [data-tooltip]:focus:before,
+.building_simulation_block [data-tooltip]:focus:after
+{
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Base styles for the tooltip's directional arrow */
+.building_simulation_block [data-tooltip]:before
+{
+  z-index: 1001;
+  border: 6px solid transparent;
+  background: transparent;
+  content: "";
+}
+
+/* Base styles for the tooltip's content area */
+.building_simulation_block [data-tooltip]:after
+{
+  z-index: 1000;
+  padding: 10px;
+  width: 360px;
+  background-color: #da7049;
+  color: #fff;
+  content: attr(data-tooltip);
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Directions */
+
+/* Top (default) */
+.building_simulation_block [data-tooltip]:before,
+.building_simulation_block [data-tooltip]:after
+{
+  bottom: 100%;
+  left: 50%;
+}
+
+.building_simulation_block [data-tooltip]:before
+{
+  margin-left: -6px;
+  margin-bottom: -12px;
+  border-top-color: #da7049;
+}
+
+/* Horizontally align top/bottom tooltips */
+.building_simulation_block [data-tooltip]:after
+{
+  margin-left: -190px;
+}
+
+.building_simulation_block [data-tooltip]:before,
+.building_simulation_block [data-tooltip]:after,
+.building_simulation_block [data-tooltip]:focus:before,
+.building_simulation_block [data-tooltip]:focus:after
+{
+  transform: translateY(-12px);
+}

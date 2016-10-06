@@ -1,0 +1,9 @@
+/* CSS for BuildingSimulationXBlock */
+
+.building_simulation_block .count {
+    font-weight: bold;
+}
+
+.building_simulation_block p {
+    cursor: pointer;
+}

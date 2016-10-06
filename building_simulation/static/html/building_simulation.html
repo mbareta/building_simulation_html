@@ -1,0 +1,147 @@
+<div class="building_simulation_block">
+  <div id="webgl"></div>
+  <div id="buildingSimulationContent">
+    <div id="splash">
+      <u>ACTIVITY</u>
+      <h4>Mixed Use and Neighborhood Externalities</h4>
+      <button id="splashBegin" style="visibility: hidden;">BEGIN</button>
+    </div>
+    <div id="firstExercise">
+      <h1>
+        Instructions: Assignment #1
+      </h1>
+      <p>
+        The goal is to maximize the value of the residential part of the building (second floor).
+        Click and drag to rotate the view.
+      </p>
+      <button id="firstExerciseBegin">START</button>
+    </div>
+    <div id="secondExercise">
+      <h1>
+        Instructions: Assignment #2
+      </h1>
+      <p>
+        The goal is to maximize the value of the commercial part of the building (first floor).
+      </p>
+      <button id="secondExerciseBegin">CONTINUE</button>
+    </div>
+    <div id="thirdExercise">
+      <h1>
+        Instructions: Assignment #3
+      </h1>
+      <p>
+        The goal is to maximize the value of the whole neighborhood.
+      </p>
+      <button id="thirdExerciseBegin">CONTINUE</button>
+    </div>
+    <div id="conclusion">
+      <h1>
+        Conclusion
+      </h1>
+      <p>
+        Congrats!
+      </p>
+      <button id="conclusionBegin">FINISH</button>
+    </div>
+  </div>
+
+  <div id="container">
+    <div id="valueBoard">
+      <div>
+        <button id="undo">UNDO</button>
+        <button id="redo">REDO</button>
+        <button id="rotateLeft">ROTATE LEFT</button>
+        <button id="rotateRight">ROTATE RIGHT</button>
+      </div>
+      <hr>
+      <span>
+          RESIDENTIAL VALUE ($)
+          <span id="residentialValue" class="value-span">
+            0
+          </span>
+          <div id="residentialPercent" class="meter">
+            <span style="width: 0"></span>
+          </div>
+      </span>
+      <hr>
+      <span>
+          COMMERCIAL VALUE ($)
+          <span id="commercialValue" class="value-span">
+            0
+          </span>
+          <div id="commercialPercent" class="meter">
+            <span style="width: 0"></span>
+          </div>
+      </span>
+      <hr>
+      <span>
+          NEIGHBORHOOD VALUE ($)
+          <span id="socialValue" class="value-span">
+            0
+          </span>
+          <div id="socialPercent" class="meter">
+            <span style="width: 0"></span>
+          </div>
+      </span>
+    </div>
+
+    <div id="blockMenuResidential">
+      <div id="selectTypeTitle">
+        <b>SELECT AND APPLY</b>
+      </div>
+
+      <div data-type="HIGH_END_RESIDENTIAL" data-color="rgb(155, 69, 33)" class="blockMenuResidentialItem">
+        <span class="menu-label orange">
+          <a>High-End Residential</a>
+        </span>
+      </div>
+
+      <div data-type="AFFORDABLE" data-color="rgb(191, 144, 0)" class="blockMenuResidentialItem">
+        <span class="menu-label yellow">
+          <a>Affordable Housing</a>
+        </span>
+      </div>
+    </div>
+
+
+    <div id="blockMenuCommercial">
+      <div id="selectTypeTitle">
+        <b>SELECT AND APPLY</b>
+      </div>
+
+      <div data-type="CONVENIENCE" data-color="rgb(65, 138, 132)" class="blockMenuCommercialItem">
+        <span class="menu-label blue">
+          <a>Local convenience</a>
+        </span>
+      </div>
+
+      <div data-type="GROCERY" data-color="rgb(155, 69, 33)" class="blockMenuCommercialItem">
+        <span class="menu-label orange">
+          <a>Local grocery</a>
+        </span>
+      </div>
+
+      <div data-type="LOCAL" data-color="rgb(191, 144, 0)" class="blockMenuCommercialItem">
+        <span class="menu-label yellow">
+          <a>Local service</a>
+        </span>
+      </div>
+
+      <div data-type="RESTAURANT" data-color="rgb(191, 158, 116)" class="blockMenuCommercialItem">
+        <span class="menu-label skin"><a>Restaurant / Bar</a></span>
+      </div>
+
+      <div data-type="TOURISM" data-color="rgb(81, 50, 49)" class="blockMenuCommercialItem">
+        <span class="menu-label brown"><a>Tourism-oriented low-quality goods</a></span>
+      </div>
+
+      <div data-type="ARTISAN" data-color="rgb(110, 27, 24)" class="blockMenuCommercialItem">
+        <span class="menu-label red"><a>Artisan and cultural goods</a></span>
+      </div>
+
+      <div data-type="COMMUNITY" data-color="rgb(105, 120, 61)" class="blockMenuCommercialItem">
+        <span class="menu-label green"><a>Community equipment</a></span>
+      </div>
+    </div>
+  </div>
+</div>

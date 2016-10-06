@@ -1,0 +1,140 @@
+.building_simulation_block {
+  position: inherit;
+  height: 300px;
+}
+
+.xblock-render .building_simulation_block #webgl {
+  position: absolute;
+  top: 60px;
+  left: 30px;
+}
+
+.building_simulation_block a {
+  cursor: pointer;
+}
+
+.building_simulation_block span, .building_simulation_block button, .building_simulation_block a {
+  font-family: Roboto;
+}
+
+.building_simulation_block button {
+  background: transparent;
+  border: 1px solid white;
+  padding: 0.4em;
+  color: white;
+  box-shadow: 0 0 0;
+  text-shadow: 0 0 0;
+}
+
+.building_simulation_block button:hover {
+  background: white;
+  color: black;
+}
+
+.building_simulation_block #webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.building_simulation_block .colorCell {
+  padding: 5px !important;
+}
+
+.building_simulation_block .blockMenuItem {
+  padding-top: 5px;
+}
+
+.building_simulation_block #valueBoard,
+.building_simulation_block #blockMenuResidential,
+.building_simulation_block #blockMenuCommercial {
+  position: absolute;
+  padding: 1em;
+  background-color: black;
+  color: white;
+  z-index: 10;
+}
+
+.building_simulation_block #valueBoard {
+  left: 20px;
+  bottom: 20px;
+  width: 350px;
+  height: 280px;
+  display: none;
+}
+
+.building_simulation_block .value-span {
+  float: right;
+}
+
+.building_simulation_block #blockMenuResidential, .building_simulation_block #blockMenuCommercial {
+  display: none;
+  top: 30px;
+  right: 30px;
+  width: 330px;
+  height: 260px;
+  color: white;
+  background-color: black;
+}
+
+.building_simulation_block #blockMenuResidential {
+  height: 90px;
+}
+
+.building_simulation_block #selectTypeTitle {
+  margin-bottom: 1em;
+}
+
+.building_simulation_block .blockMenuItem {
+  cursor: pointer;
+}
+
+.building_simulation_block .menu-label {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 2px;
+  padding: 6px 0px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  border-radius: 1px;
+  font-family: Roboto;
+}
+
+.building_simulation_block .menu-label a {
+  padding-left: .6em;
+}
+
+.building_simulation_block .menu-label:hover {
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+.building_simulation_block .menu-label.blue {
+  background-color: rgba(65, 138, 132, 1);
+}
+
+.building_simulation_block .menu-label.orange {
+  background-color: rgba(155, 69, 33, 1);
+}
+
+.building_simulation_block .menu-label.yellow {
+  background-color: rgba(191, 144, 0, 1);
+}
+
+.building_simulation_block .menu-label.skin {
+  background-color: rgba(191, 158, 116, 1);
+}
+
+.building_simulation_block .menu-label.brown {
+  background-color: rgba(81, 50, 49, 1);
+}
+
+.building_simulation_block .menu-label.red {
+  background-color: rgba(110, 27, 24, 1);
+}
+
+.building_simulation_block .menu-label.green {
+  background-color: rgba(105, 120, 61, 1);
+}
