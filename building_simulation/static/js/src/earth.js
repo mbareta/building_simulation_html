@@ -68,12 +68,6 @@ $(function () {
     });
 
     render();
-
-    setTimeout(
-        function(){$('#splashBegin').css('visibility', 'initial');},
-        1000
-    );
-
     // end init
 
     // define functions below

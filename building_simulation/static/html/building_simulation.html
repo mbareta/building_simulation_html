@@ -4,7 +4,8 @@
     <div id="splash">
       <u>ACTIVITY</u>
       <h4>Mixed Use and Neighborhood Externalities</h4>
-      <button id="splashBegin" style="visibility: hidden;">BEGIN</button>
+      <button id="splashBegin" style="visibility: hidden; display: block;">BEGIN</button>
+      <button id="splashResume" style="visibility: hidden; display: block;">RESUME</button>
     </div>
     <div id="firstExercise">
       <h1>
@@ -144,4 +145,12 @@
       </div>
     </div>
   </div>
+
+    {% if scene_model %}
+      <script type="text/javascript">
+        var currentExercise = {{exercise_progress}};
+        var sceneModel = {{scene_model|safe}};
+      </script>
+    {% endif %}
+
 </div>

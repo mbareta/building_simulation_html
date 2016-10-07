@@ -1,26 +1,65 @@
 // content buttons
+$(document).ready(function(){
+    if(MIT.currentExercise > 0) {
+        $('#splashResume')
+        .css('visibility', 'initial')
+        .on('click', function(){
+            $('#splash, #buildingSimulationContent').fadeOut();
+            console.log(sceneElements);
+
+            switch(MIT.currentExercise) {
+                case(1): {
+                    $('#firstExercise').fadeIn();
+                    break;
+                }
+                case(2): {
+                    $('#secondExercise').fadeIn();
+                    break;
+                }
+                case(3): {
+                    $('#thirdExercise').fadeIn();
+                    break;
+                }
+            }
+            buildScene();
+            setTimeout(function(){controls.autoRotate = false}, 1000);
+        });
+    }
+    else {
+        $('#splashBegin').css('visibility', 'initial');
+    }
+});
+
+// curretnExercise == 0
 $('#splashBegin').on('click', function() {
     $('#splash').fadeOut();
     $('#firstExercise').fadeIn();
     MIT.currentExercise++;
+    document.saveUserProgress();
 });
 
+// curretnExercise == 1
 $('#firstExerciseBegin').on('click', function() {
     $('#firstExercise, #buildingSimulationContent').fadeOut();
     $('#valueBoard').slideDown();
     setTimeout(function(){controls.autoRotate = false}, 1000);
     MIT.currentExercise++;
+    document.saveUserProgress();
 })
 
+// curretnExercise == 2
 $('#secondExerciseBegin').on('click', function() {
     $('#secondExercise, #buildingSimulationContent').fadeOut();
     MIT.currentExercise++;
+    document.saveUserProgress();
 });
 
+// curretnExercise == 3
 $('#thirdExerciseBegin').on('click', function() {
     $('#thirdExercise, #buildingSimulationContent').fadeOut();
     MIT.currentExercise++;
     buildScene();
+    document.saveUserProgress();
 });
 
 // three js and exercise stuff
@@ -67,6 +106,7 @@ function assignObject(that) {
 
         StateBuffer.storeState(sceneElements);
         MIT.updateValue();
+        document.saveUserProgress();
     }
 }
 
@@ -98,7 +138,6 @@ function onDocumentDoubleClick(event) {
     var intersects = raycaster.intersectObjects(scene.children);
 
     if ( intersects.length > 0 ) {
-        console.log(MIT.currentExercise);
         var block = intersects[0].object;
         if (block.mitId) {
             var element = getElement(block.mitId);
