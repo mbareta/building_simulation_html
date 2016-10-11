@@ -5,7 +5,6 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(){
             $('#splash, #buildingSimulationContent').fadeOut();
-            console.log(sceneElements);
 
             switch(MIT.currentExercise) {
                 case(1): {

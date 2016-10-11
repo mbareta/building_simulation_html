@@ -22,7 +22,7 @@ var materialTypes = {
     COMMUNITY: new THREE.MeshLambertMaterial({color: 'rgb(105, 120, 61)'}),
 };
 
-var sceneElements = sceneModel || {};
+var sceneElements = typeof sceneModel !== 'undefined' ? sceneModel : {};
 
 if(!sceneElements.core) {
     sceneElements.core = {

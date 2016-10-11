@@ -40,7 +40,7 @@ class BuildingSimulationXBlock(XBlock):
         when viewing courses.
         """
         context = {
-            'scene_model': self.scene_model.decode("utf8"),
+            'scene_model': self.scene_model.decode("utf8") if self.scene_model else {},
             'exercise_progress': self.exercise_progress
         }
         html = self.render_template('static/html/building_simulation.html', context)

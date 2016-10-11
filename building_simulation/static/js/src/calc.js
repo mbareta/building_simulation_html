@@ -2,7 +2,7 @@ var MIT = {};
 
 // index of current exercise
 // should re-factor this to object instead of integer for human readability and robustness
-MIT.currentExercise = currentExercise || 0;
+MIT.currentExercise = typeof currentExercise !== 'undefined' ? currentExercise : 0;
 
 // types of objects
 MIT.objectType = {
