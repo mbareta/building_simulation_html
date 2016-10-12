@@ -5,6 +5,8 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(){
             $('#splash, #buildingSimulationContent').fadeOut();
+            $('#valueBoard').slideDown();
+            MIT.updateValue();
 
             switch(MIT.currentExercise) {
                 case(1): {
@@ -20,7 +22,7 @@ $(document).ready(function(){
                     break;
                 }
             }
-            buildScene();
+            // buildScene();
             setTimeout(function(){controls.autoRotate = false}, 1000);
         });
     }

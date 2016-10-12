@@ -78,13 +78,13 @@
   top: 30px;
   right: 30px;
   width: 330px;
-  height: 260px;
+  height: 320px;
   color: white;
   background-color: black;
 }
 
 .building_simulation_block #blockMenuResidential {
-  height: 90px;
+  height: 120px;
 }
 
 .building_simulation_block #selectTypeTitle {
