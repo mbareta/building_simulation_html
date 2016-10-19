@@ -1,9 +1,38 @@
 /* CSS for BuildingSimulationXBlock */
 
-.building_simulation_block .count {
-    font-weight: bold;
-}
-
 .building_simulation_block p {
     cursor: pointer;
 }
+
+.xblock-render .building_simulation_block .chevron,
+.xblock-render .building_simulation_block #valueBoard
+{
+  display: none !important;
+  opacity: 0;
+  visibility: none;
+}
+
+.chevron {
+  position: fixed;
+  display: none;
+  bottom: 15%;
+  background-image: url(https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/icon-chevron-leftright-512px.png);
+  background-size: 200px 100px;
+  height: 100px;
+  width: 100px;
+}
+
+.chevron:hover {
+  opacity: .8;
+}
+
+.chevron.left {
+  left: 40%;
+  background-position: 0 0;
+}
+
+.chevron.right {
+  left: 50%;
+  background-position: -100px 0;
+}
+

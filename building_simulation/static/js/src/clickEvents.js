@@ -5,7 +5,7 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(){
             $('#splash, #buildingSimulationContent').fadeOut();
-            $('#valueBoard').slideDown();
+            $('#valueBoard, .chevron').slideDown();
             MIT.updateValue();
 
             switch(MIT.currentExercise) {
@@ -42,7 +42,7 @@ $('#splashBegin').on('click', function() {
 // curretnExercise == 1
 $('#firstExerciseBegin').on('click', function() {
     $('#firstExercise, #buildingSimulationContent').fadeOut();
-    $('#valueBoard').slideDown();
+    $('#valueBoard, .chevron').slideDown();
     setTimeout(function(){controls.autoRotate = false}, 1000);
     MIT.currentExercise++;
     document.saveUserProgress();
@@ -61,6 +61,24 @@ $('#thirdExerciseBegin').on('click', function() {
     MIT.currentExercise++;
     buildScene();
     document.saveUserProgress();
+});
+
+$('#conclusionBegin').on('click', function(){
+    $('#conclusion, #buildingSimulationContent').fadeOut();
+    MIT.currentExercise++;
+    document.saveUserProgress();
+});
+
+$('#conclusionReset').on('click', function(){
+    // reset MIT model
+    $('#conclusion').fadeOut();
+    setSceneElements(true);
+    MIT.currentExercise = 1;
+    setTimeout(function(){
+        buildScene();
+        MIT.updateValue();
+    }, 500);
+    $('#firstExercise').fadeIn();
 });
 
 // three js and exercise stuff

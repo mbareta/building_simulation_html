@@ -226,6 +226,11 @@ MIT.updateValue = function(){
     if(MIT.currentExercise == 3 && commercialValue/optimalValue.commercial > 0.8) {
         $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
     }
+
+    // finish third exercise
+    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.65) {
+        $('#buildingSimulationContent, #conclusion').fadeIn(1200);
+    }
 }
 
 MIT.updateFloatingText = function(value) {
