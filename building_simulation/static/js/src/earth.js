@@ -50,9 +50,13 @@ $(function () {
     // controls
     controls = new THREE.OrbitControls( camera );
 
-    document.addEventListener( 'dblclick', onDocumentDoubleClick, false );
-    document.addEventListener( 'click', onDocumentClick, false );
-    window.addEventListener( 'resize', onWindowResize, false );
+    // prevent event binding when in studio
+    if($('.xblock-render').length > 0) {
+        document.addEventListener( 'dblclick', onDocumentDoubleClick, false );
+        document.addEventListener( 'click', onDocumentClick, false );
+        window.addEventListener( 'resize', onWindowResize, false );
+    }
+
 
     webglEl.appendChild(renderer.domElement);
     window.scene = scene;
