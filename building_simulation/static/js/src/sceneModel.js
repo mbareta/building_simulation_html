@@ -48,7 +48,7 @@ var textures = [
     }
 })();
 
-var sceneElements = {};
+var sceneElements = typeof sceneModel !== 'undefined' ? sceneModel : {};
 
 function setSceneElements(reset) {
     if(!sceneElements.core || reset) {
