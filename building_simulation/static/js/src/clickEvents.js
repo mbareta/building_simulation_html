@@ -120,14 +120,14 @@ function assignObject(that) {
 
         var elementData = getElement(editObject.mitId);
         elementData.type = type;
-        elementData.options.material = material;
+        elementData.options.material = type;
 
         rebuildElement(elementData);
         editObject = undefined;
 
-        // StateBuffer.storeState(sceneElements);
         MIT.updateValue();
-        // document.saveUserProgress();
+        StateBuffer.storeState(sceneElements);
+        document.saveUserProgress();
     }
 }
 

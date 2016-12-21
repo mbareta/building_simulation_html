@@ -197,6 +197,8 @@ function buildScene() {
             return;
         }
     }
+
+    // remove all blocks from the scene
     for (var a = 0; a < scene.children.length; a++) {
         var child = scene.children[a];
         if(child && child.mitId) {
