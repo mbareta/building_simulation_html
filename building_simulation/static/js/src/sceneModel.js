@@ -1,28 +1,54 @@
 var segments = 32;
 
-
-var blockTexture = new THREE.TextureLoader().load('https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/cubemap.png');
-blockTexture.wrapS = THREE.RepeatWrapping;
-blockTexture.wrapT = THREE.RepeatWrapping;
-
 var materialTypes = {
-    DEFAULT: new THREE.MeshLambertMaterial({map: blockTexture}),
+    DEFAULT: undefined,
     NEIGHBOR: new THREE.MeshLambertMaterial({color: 0x552B2B}),
     SELECTED: new THREE.MeshLambertMaterial({color: 0x555555}),
     FONT: new THREE.MeshPhongMaterial({color: 0xbbbbbb, shininess: 50, emissive: 0x222222}),
 
-    HIGH_END_RESIDENTIAL: new THREE.MeshLambertMaterial({color: 'rgb(155, 69, 33)'}),
-    AFFORDABLE: new THREE.MeshLambertMaterial({color: 'rgb(191, 144, 0)'}),
-    CONVENIENCE: new THREE.MeshLambertMaterial({color: 'rgb(65, 138, 132)'}),
-    GROCERY: new THREE.MeshLambertMaterial({color: 'rgb(155, 69, 33)'}),
-    LOCAL: new THREE.MeshLambertMaterial({color: 'rgb(191, 144, 0)'}),
-    RESTAURANT: new THREE.MeshLambertMaterial({color: 'rgb(191, 158, 116)'}),
-    TOURISM: new THREE.MeshLambertMaterial({color: 'rgb(81, 50, 49)'}),
-    ARTISAN: new THREE.MeshLambertMaterial({color: 'rgb(110, 27, 24)'}),
-    COMMUNITY: new THREE.MeshLambertMaterial({color: 'rgb(105, 120, 61)'}),
+    HIGH_END_RESIDENTIAL: undefined,
+    AFFORDABLE: undefined,
+    CONVENIENCE: undefined,
+    GROCERY: undefined,
+    LOCAL: undefined,
+    RESTAURANT: undefined,
+    TOURISM: undefined,
+    ARTISAN: undefined,
+    COMMUNITY: undefined,
 };
 
-var sceneElements = typeof sceneModel !== 'undefined' ? sceneModel : {};
+var textures = [
+    { name: 'cubemap', key: 'DEFAULT' },
+    { name: 'high-end', key: 'HIGH_END_RESIDENTIAL' },
+    { name: 'affordable-housing', key: 'AFFORDABLE' },
+    { name: 'convenience', key: 'CONVENIENCE' },
+    { name: 'grocery', key: 'GROCERY' },
+    { name: 'local-service', key: 'LOCAL' },
+    { name: 'restaurant-bar', key: 'RESTAURANT' },
+    { name: 'tourism', key: 'TOURISM' },
+    { name: 'artisan', key: 'ARTISAN' },
+    { name: 'community-equipment', key: 'COMMUNITY' },
+
+];
+(function loadAllTextures() {
+    var s3url = 'https://s3.amazonaws.com/mit-cre-assets/building_simulation/';
+
+    for (var i = textures.length - 1; i >= 0; i--) {
+        var textureData = textures[i];
+        // IIFE so textureData doesn't get messed up
+        (function(textureData){
+            var url = s3url + textureData.name + '.jpg';
+            (new THREE.TextureLoader()).load(url, function(texture){
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                materialTypes[textureData.key] = new THREE.MeshLambertMaterial({map: texture});
+                buildScene();
+            });
+        })(textureData);
+    }
+})();
+
+var sceneElements = {};
 
 function setSceneElements(reset) {
     if(!sceneElements.core || reset) {
@@ -164,6 +190,13 @@ setTimeout(function(){StateBuffer.init(sceneElements)}, 0);
 // builds scene from scratch
 // very cpu expensive and should be used only when absolutely needed
 function buildScene() {
+    for (var i = textures.length - 1; i >= 0; i--) {
+        var textureData = textures[i];
+        // do not build until all materials have loaded
+        if(!materialTypes[textureData.key]) {
+            return;
+        }
+    }
     for (var a = 0; a < scene.children.length; a++) {
         var child = scene.children[a];
         if(child && child.mitId) {
