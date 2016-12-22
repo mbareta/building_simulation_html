@@ -26,3 +26,29 @@
   margin-top: -3px;
   border-right: 1px solid white;
 }
+
+.meter.blue {
+    height: 26px;
+    position: relative;
+    margin: 1em 0;
+    background: #625656;
+}
+
+.meter.blue > span {
+  display: block;
+  height: 100%;
+  background-color: #48ADA7;
+  position: relative;
+  transition: width 0.6s;
+}
+
+.meter.blue > span:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  height: 26px;
+  border: 0 none;
+  margin: 0;
+}
+

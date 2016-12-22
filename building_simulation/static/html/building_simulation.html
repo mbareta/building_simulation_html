@@ -5,7 +5,7 @@
       <u>ACTIVITY</u>
       <h4>Mixed Use and Neighborhood Externalities</h4>
       <button id="splashBegin" style="visibility: hidden; display: block;">BEGIN</button>
-      <button id="splashResume" style="visibility: hidden; display: block;">RESUME</button>
+      <button id="splashResume" style="visibility: hidden; display: block;">CONTINUE</button>
     </div>
     <div id="firstExercise">
       <h1>
@@ -15,7 +15,10 @@
         The goal is to maximize the value of the residential part of the building (second floor).
         Click and drag to rotate the view.
       </p>
-      <button id="firstExerciseBegin">START</button>
+      <span class="button-container">
+        <button class="back">BACK</button>
+        <button id="firstExerciseBegin">CONTINUE</button>
+      </span>
     </div>
     <div id="secondExercise">
       <h1>
@@ -24,7 +27,10 @@
       <p>
         The goal is to maximize the value of the commercial part of the building (first floor).
       </p>
-      <button id="secondExerciseBegin">CONTINUE</button>
+      <span class="button-container">
+        <button class="back">BACK</button>
+        <button id="secondExerciseBegin">CONTINUE</button>
+      </span>
     </div>
     <div id="thirdExercise">
       <h1>
@@ -33,7 +39,10 @@
       <p>
         The goal is to maximize the value of the whole neighborhood.
       </p>
-      <button id="thirdExerciseBegin">CONTINUE</button>
+      <span class="button-container">
+        <button class="back">BACK</button>
+        <button id="thirdExerciseBegin">CONTINUE</button>
+      </span>
     </div>
     <div id="conclusion">
       <h1>
@@ -51,11 +60,11 @@
     <span id="rotateLeft" class="chevron left"></span>
     <span id="rotateRight" class="chevron right"></span>
     <div id="valueBoard">
-      <div>
+      <!-- <div>
         <button id="undo">UNDO</button>
         <button id="redo">REDO</button>
       </div>
-      <hr>
+      <hr> -->
       <span>
           RESIDENTIAL VALUE ($)
           <span id="residentialValue" class="value-span">
@@ -65,7 +74,6 @@
             <span style="width: 0"></span>
           </div>
       </span>
-      <hr>
       <span>
           COMMERCIAL VALUE ($)
           <span id="commercialValue" class="value-span">
@@ -75,13 +83,12 @@
             <span style="width: 0"></span>
           </div>
       </span>
-      <hr>
       <span>
           NEIGHBORHOOD VALUE ($)
           <span id="socialValue" class="value-span">
             0
           </span>
-          <div id="socialPercent" class="meter">
+          <div id="socialPercent" class="meter blue">
             <span style="width: 0"></span>
           </div>
       </span>
@@ -111,43 +118,43 @@
         <b>SELECT AND APPLY</b>
       </div>
 
-      <div data-type="CONVENIENCE" data-color="rgb(65, 138, 132)" class="blockMenuCommercialItem">
+      <div data-type="CONVENIENCE" class="blockMenuCommercialItem">
         <span class="menu-label blue">
           <a>Local convenience</a>
         </span>
       </div>
 
-      <div data-type="GROCERY" data-color="rgb(155, 69, 33)" class="blockMenuCommercialItem">
-        <span class="menu-label orange">
+      <div data-type="GROCERY" class="blockMenuCommercialItem">
+        <span class="menu-label lightblue">
           <a>Local grocery</a>
         </span>
       </div>
 
-      <div data-type="LOCAL" data-color="rgb(191, 144, 0)" class="blockMenuCommercialItem">
-        <span class="menu-label yellow">
+      <div data-type="LOCAL" class="blockMenuCommercialItem">
+        <span class="menu-label lightbrown">
           <a>Local service</a>
         </span>
       </div>
 
-      <div data-type="RESTAURANT" data-color="rgb(191, 158, 116)" class="blockMenuCommercialItem">
-        <span class="menu-label skin"><a>Restaurant / Bar</a></span>
+      <div data-type="RESTAURANT" class="blockMenuCommercialItem">
+        <span class="menu-label brown"><a>Restaurant / Bar</a></span>
       </div>
 
-      <div data-type="TOURISM" data-color="rgb(81, 50, 49)" class="blockMenuCommercialItem">
-        <span class="menu-label brown"><a>Tourism-oriented low-quality goods</a></span>
+      <div data-type="TOURISM" class="blockMenuCommercialItem">
+        <span class="menu-label deepblue"><a>Tourism-oriented low-quality goods</a></span>
       </div>
 
-      <div data-type="ARTISAN" data-color="rgb(110, 27, 24)" class="blockMenuCommercialItem">
-        <span class="menu-label red"><a>Artisan and cultural goods</a></span>
+      <div data-type="ARTISAN" class="blockMenuCommercialItem">
+        <span class="menu-label green"><a>Artisan and cultural goods</a></span>
       </div>
 
-      <div data-type="COMMUNITY" data-color="rgb(105, 120, 61)" class="blockMenuCommercialItem">
-        <span class="menu-label green"><a>Community equipment</a></span>
+      <div data-type="COMMUNITY" class="blockMenuCommercialItem">
+        <span class="menu-label purple"><a>Community equipment</a></span>
       </div>
     </div>
   </div>
 
-    {% if scene_model %}
+    {% if False and scene_model %}
       <script type="text/javascript">
         var currentExercise = {{exercise_progress}};
         var sceneModel = {{scene_model|safe}};
