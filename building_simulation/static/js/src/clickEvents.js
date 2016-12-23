@@ -32,6 +32,14 @@ $(document).ready(function(){
     }
 });
 
+// $('#webgl').on('mousedown', function(){
+//     $(this).css('cursor', 'move');
+// });
+
+// $('#webgl').on('mouseup', function(){
+//     $(this).css('cursor', 'auto');
+// });
+
 // curretnExercise == 0
 $('#splashBegin').on('click', function(event) {
     event.stopPropagation();
@@ -44,7 +52,7 @@ $('#splashBegin').on('click', function(event) {
 // curretnExercise == 1
 $('#firstExerciseBegin').on('click', function() {
     $('#firstExercise, #buildingSimulationContent').fadeOut();
-    $('#valueBoard, .chevron').slideDown();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     setTimeout(function(){controls.autoRotate = false}, 1000);
     MIT.currentExercise++;
     document.saveUserProgress();
@@ -53,6 +61,7 @@ $('#firstExerciseBegin').on('click', function() {
 // curretnExercise == 2
 $('#secondExerciseBegin').on('click', function() {
     $('#secondExercise, #buildingSimulationContent').fadeOut();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     MIT.currentExercise++;
     document.saveUserProgress();
 });
@@ -60,6 +69,7 @@ $('#secondExerciseBegin').on('click', function() {
 // curretnExercise == 3
 $('#thirdExerciseBegin').on('click', function() {
     $('#thirdExercise, #buildingSimulationContent').fadeOut();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     MIT.currentExercise++;
     buildScene();
     document.saveUserProgress();
@@ -67,6 +77,7 @@ $('#thirdExerciseBegin').on('click', function() {
 
 $('#conclusionBegin').on('click', function(){
     $('#conclusion, #buildingSimulationContent').fadeOut();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     MIT.currentExercise++;
     document.saveUserProgress();
 });

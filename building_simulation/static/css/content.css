@@ -57,13 +57,13 @@
   font-family: Roboto;
 }
 
-.building_simulation_block #buildingSimulationContent .button-container {
+.building_simulation_block .button-container {
   position: fixed;
   right: 1em;
   bottom: 1em;
 }
 
-.building_simulation_block #buildingSimulationContent button {
+.building_simulation_block button {
   padding: 0.6em 2em;
   margin: 1em auto;
   min-width: 250px;
@@ -77,11 +77,11 @@
   text-shadow: 0 0 0;
 }
 
-.building_simulation_block #buildingSimulationContent button.back {
+.building_simulation_block button.back {
   margin-right: 1em;
 }
 
-.building_simulation_block #buildingSimulationContent button:hover {
+.building_simulation_block button:hover {
   color: black;
   background: white;
 }

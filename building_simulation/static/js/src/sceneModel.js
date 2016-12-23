@@ -39,8 +39,6 @@ var textures = [
         (function(textureData){
             var url = s3url + textureData.name + '.jpg';
             (new THREE.TextureLoader()).load(url, function(texture){
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
                 materialTypes[textureData.key] = new THREE.MeshLambertMaterial({map: texture});
                 buildScene();
             });
