@@ -3,7 +3,8 @@ $(document).ready(function(){
     if(MIT.currentExercise > 0) {
         $('#splashResume')
         .css('visibility', 'initial')
-        .on('click', function(){
+        .on('click', function(event){
+            event.stopPropagation();
             $('#splash, #buildingSimulationContent').fadeOut();
             $('#valueBoard, .chevron').slideDown();
             MIT.updateValue();
@@ -31,8 +32,17 @@ $(document).ready(function(){
     }
 });
 
+// $('#webgl').on('mousedown', function(){
+//     $(this).css('cursor', 'move');
+// });
+
+// $('#webgl').on('mouseup', function(){
+//     $(this).css('cursor', 'auto');
+// });
+
 // curretnExercise == 0
-$('#splashBegin').on('click', function() {
+$('#splashBegin').on('click', function(event) {
+    event.stopPropagation();
     $('#splash').fadeOut();
     $('#firstExercise').fadeIn();
     MIT.currentExercise++;
@@ -42,7 +52,7 @@ $('#splashBegin').on('click', function() {
 // curretnExercise == 1
 $('#firstExerciseBegin').on('click', function() {
     $('#firstExercise, #buildingSimulationContent').fadeOut();
-    $('#valueBoard, .chevron').slideDown();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     setTimeout(function(){controls.autoRotate = false}, 1000);
     MIT.currentExercise++;
     document.saveUserProgress();
@@ -51,6 +61,7 @@ $('#firstExerciseBegin').on('click', function() {
 // curretnExercise == 2
 $('#secondExerciseBegin').on('click', function() {
     $('#secondExercise, #buildingSimulationContent').fadeOut();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     MIT.currentExercise++;
     document.saveUserProgress();
 });
@@ -58,6 +69,7 @@ $('#secondExerciseBegin').on('click', function() {
 // curretnExercise == 3
 $('#thirdExerciseBegin').on('click', function() {
     $('#thirdExercise, #buildingSimulationContent').fadeOut();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     MIT.currentExercise++;
     buildScene();
     document.saveUserProgress();
@@ -65,6 +77,7 @@ $('#thirdExerciseBegin').on('click', function() {
 
 $('#conclusionBegin').on('click', function(){
     $('#conclusion, #buildingSimulationContent').fadeOut();
+    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
     MIT.currentExercise++;
     document.saveUserProgress();
 });
@@ -118,58 +131,58 @@ function assignObject(that) {
 
         var elementData = getElement(editObject.mitId);
         elementData.type = type;
-        elementData.options.material = material;
+        elementData.options.material = type;
 
         rebuildElement(elementData);
         editObject = undefined;
 
-        StateBuffer.storeState(sceneElements);
         MIT.updateValue();
+        StateBuffer.storeState(sceneElements);
         document.saveUserProgress();
     }
 }
 
-// closes the assign popup if opened and reverts the object to previous state
-function onDocumentClick( event ) {
-    event.preventDefault();
-    $("#blockMenuCommercial, #blockMenuResidential").slideUp();
-    if(editObject) {
-        var elementData = getElement(editObject.mitId);
-        editObject.material = materialTypes[elementData.type || 'DEFAULT'];
-        editObject = undefined;
-    }
-}
 
+// prevent event binding when in studio
+if($('.xblock-render').length == 0) {
+    $(document).on('click', function(event){
+        event.preventDefault();
 
-// returns the object you double clicked
-function onDocumentDoubleClick(event) {
-    event.preventDefault();
+        if(editObject) {
+            $("#blockMenuCommercial, #blockMenuResidential").slideUp();
+            var elementData = getElement(editObject.mitId);
+            editObject.material = materialTypes[elementData.type || 'DEFAULT'];
+            editObject = undefined;
+        }
+    });
 
-    if(event.button != 0) {
-        return;
-    }
+    $(document).on('dblclick', function(event){
+        if(event.button != 0) {
+            return;
+        }
 
-    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+        mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+        mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
+        raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(scene.children);
+        var intersects = raycaster.intersectObjects(scene.children);
 
-    if ( intersects.length > 0 ) {
-        var block = intersects[0].object;
-        if (block.mitId) {
-            var element = getElement(block.mitId);
-            if(element &&
-                (element.options.type === 'residential' || (element.options.type === 'commercial' && MIT.currentExercise > 2))
-            ) {
-                var selector = '#blockMenu' + capitalizeFirstLetter(block.type);
-                $(selector).fadeIn();
-                block.material = materialTypes['SELECTED'];
-                editObject = block;
+        if ( intersects.length > 0 ) {
+            var block = intersects[0].object;
+            if (block.mitId) {
+                var element = getElement(block.mitId);
+                if(element &&
+                    (element.options.type === 'residential' || (element.options.type === 'commercial' && MIT.currentExercise > 2))
+                ) {
+                    var selector = '#blockMenu' + capitalizeFirstLetter(block.type);
+                    $(selector).fadeIn();
+                    block.material = materialTypes['SELECTED'];
+                    editObject = block;
+                }
             }
         }
-    }
+    });
 }
 
 // helper function

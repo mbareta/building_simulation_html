@@ -50,17 +50,8 @@ $(function () {
     // controls
     controls = new THREE.OrbitControls( camera );
 
-    // prevent event binding when in studio
-    if($('.xblock-render').length == 0) {
-        document.addEventListener( 'dblclick', onDocumentDoubleClick, false );
-        document.addEventListener( 'click', onDocumentClick, false );
-        window.addEventListener( 'resize', onWindowResize, false );
-    }
-
-
     webglEl.appendChild(renderer.domElement);
     window.scene = scene;
-
 
     // load font and draw text
     var loader = new THREE.FontLoader();
@@ -70,6 +61,8 @@ $(function () {
         // build scene after the font is loaded
         buildScene();
     });
+
+    window.addEventListener('resize', onWindowResize);
 
     render();
     // end init

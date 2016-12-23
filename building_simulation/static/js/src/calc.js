@@ -150,6 +150,7 @@ MIT._getResidentialCount = function() {
     return { x: x, y: y };
 }
 
+// monetary value
 MIT.getResidentialValue = function() {
     var data = MIT._getResidentialCount();
     var x = data.x;
@@ -158,6 +159,7 @@ MIT.getResidentialValue = function() {
     return 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y;
 };
 
+// social + monetary value == total value
 MIT.getExternalResidentialValue = function() {
     var data = MIT._getResidentialCount();
     var x = data.x;
@@ -166,6 +168,7 @@ MIT.getExternalResidentialValue = function() {
     return 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y + 350000*y - 10000*y*y;
 };
 
+// monetary value
 MIT.getCommercialValue = function() {
     var sum = 0;
     var typeCount = MIT._getTypeCount();
@@ -179,6 +182,7 @@ MIT.getCommercialValue = function() {
     return sum*1000;
 }
 
+// monetary + social value == total value
 MIT.getExternalCommercialValue = function() {
     var sum = 0;
     var typeCount = MIT._getTypeCount();
@@ -219,16 +223,19 @@ MIT.updateValue = function(){
 
     // finish first exercise
     if(MIT.currentExercise == 2 && residentialValue/optimalValue.residential > 0.99) {
+        $('#valueBoard, .chevron, #persistentButtonContainer').hide();
         $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
     }
 
     // finish second exercise
     if(MIT.currentExercise == 3 && commercialValue/optimalValue.commercial > 0.8) {
+        $('#valueBoard, .chevron, #persistentButtonContainer').hide();
         $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.65) {
+    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.75) {
+        $('#valueBoard, .chevron, #persistentButtonContainer').hide();
         $('#buildingSimulationContent, #conclusion').fadeIn(1200);
     }
 }

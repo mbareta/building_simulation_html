@@ -65,7 +65,8 @@
   left: 20px;
   bottom: 20px;
   width: 350px;
-  height: 330px;
+  /*height: 330px;*/
+  height: 240px;
   display: none;
 }
 
@@ -115,30 +116,74 @@
   border-right: 1px solid white;
 }
 
-.building_simulation_block .menu-label.blue {
-  background-color: rgba(65, 138, 132, 1);
+.building_simulation_block .menu-label.orange {
+  background-color: #9C712D;
 }
 
-.building_simulation_block .menu-label.orange {
-  background-color: rgba(155, 69, 33, 1);
+.building_simulation_block .menu-label.orange:hover {
+ background-color: #E88817;
 }
 
 .building_simulation_block .menu-label.yellow {
-  background-color: rgba(191, 144, 0, 1);
+  background-color: #8F7A37;
 }
 
-.building_simulation_block .menu-label.skin {
-  background-color: rgba(191, 158, 116, 1);
+.building_simulation_block .menu-label.yellow:hover {
+  background-color: #DCBF36;
+}
+
+.building_simulation_block .menu-label.blue {
+  background-color: #345157;
+}
+
+.building_simulation_block .menu-label.blue:hover {
+  background-color: #55949C;
+}
+
+.building_simulation_block .menu-label.lightblue {
+  background-color: #5D7D78;
+}
+
+.building_simulation_block .menu-label.lightblue:hover {
+  background-color: #98D1CA;
+}
+
+.building_simulation_block .menu-label.lightbrown {
+  background-color: #794935;
+}
+
+.building_simulation_block .menu-label.lightbrown:hover {
+  background-color: #DA886A;
 }
 
 .building_simulation_block .menu-label.brown {
-  background-color: rgba(81, 50, 49, 1);
+  background-color: #5C3F37;
 }
 
-.building_simulation_block .menu-label.red {
-  background-color: rgba(110, 27, 24, 1);
+.building_simulation_block .menu-label.brown:hover {
+  background-color: #997566;
+}
+
+.building_simulation_block .menu-label.deepblue {
+  background-color: #405660;
+}
+
+.building_simulation_block .menu-label.deepblue:hover {
+  background-color: #6296BE;
 }
 
 .building_simulation_block .menu-label.green {
-  background-color: rgba(105, 120, 61, 1);
+  background-color: #747742;
+}
+
+.building_simulation_block .menu-label.green:hover {
+  background-color: #B2C16E;
+}
+
+.building_simulation_block .menu-label.purple {
+  background-color: #543A55;
+}
+
+.building_simulation_block .menu-label.purple:hover {
+  background-color: #9772A2;
 }
