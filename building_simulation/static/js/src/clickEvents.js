@@ -1,5 +1,6 @@
 // content buttons
 $(document).ready(function(){
+    MIT.updateProgress(0);
     if(MIT.currentExercise > 0) {
         $('#splashResume')
         .css('visibility', 'initial')

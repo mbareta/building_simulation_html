@@ -238,6 +238,8 @@ MIT.updateValue = function(){
         $('#valueBoard, .chevron, #persistentButtonContainer').hide();
         $('#buildingSimulationContent, #conclusion').fadeIn(1200);
     }
+
+    MIT.updateProgress();
 }
 
 MIT.updateFloatingText = function(value) {
@@ -255,4 +257,19 @@ MIT.updateFloatingText = function(value) {
             child.geometry = textGeometry;
         }
     }
+}
+
+// update bottom progress bar to indicate how far from exercise end you are
+MIT.updateProgress = function(value) {
+    var html = '';
+    var highlightIndex = value === undefined ? MIT.currentExercise : value;
+    for(var i = 0; i < 8; i++) {
+        if(i == highlightIndex) {
+            html += '<li class="highlighted">&nbsp;</li>';
+        }
+        else {
+            html += '<li>&nbsp;</li>';
+        }
+    }
+    $('#activity-progress').html(html);
 }
