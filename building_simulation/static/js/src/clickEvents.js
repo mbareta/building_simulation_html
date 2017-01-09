@@ -124,6 +124,14 @@ $('#rotateRight').on('click', function(){
     controls.rotateRight(90);
 });
 
+$('#webgl').on('mousedown', function(){
+    $(this).css('cursor', 'move');
+});
+
+$('#webgl').on('mouseup', function(){
+    $(this).css('cursor', 'auto');
+});
+
 
 function assignObject(that) {
     if(editObject){
