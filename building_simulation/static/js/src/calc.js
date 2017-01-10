@@ -106,18 +106,41 @@ MIT.objectType = {
     }
 }
 
+MIT.comments = {
+    initial: {
+        CONVENIENCE: 'Good choice! Local convenience stores provide basic to both tourists and residents. Good choice. Residents always enjoy accessible/easy access to basic goods.',
+        GROCERY: 'Residents applaud the construction of a local grocery store. Residents now have access to fresh produce and other food necessities at walkable distances.',
+        LOCAL: 'You are really starting to create a community. Residents are now able to access a lawyer, dentist or pharmacy close to home.',
+        RESTAURANT: 'The restaurant is bringing new business into the city. The foot traffic is increasing.',
+        TOURISM: 'There is high demand for tourism souvenirs. Casco is a tourism destination. There is high demand for souvenirs. Spillover foot traffic is increasing!',
+        ARTISAN: 'Local artisans are now able to sell their wares and represent cascos viejos unique culture.',
+        COMMUNITY: 'Casco now has more gathering spaces for education, recreation, and civic engagement.'
+    },
+    negative: {
+        CONVENIENCE: 'Neighborhood is saturated with too many conveniences for the population currently living there. The sales are dropping.',
+        LOCAL: 'A variety of services like a pharmacy and a walking clinic will benefit the community.',
+        RESTAURANT: 'Noise levels are getting high. Loud patrons exiting hours at closing times are disrupting residents (triggered at 6)',
+        TOURISM: 'Streets are filled with the same low-quality products, it\'s starting to take away from the charm of the neighborhood.'
+    },
+    positive: {
+        LOCAL: 'Cascos population is small, likely only a few local services are needed.',
+        ARTISAN: 'A variety of cultural goods allows many different artists to continue to make a living within the neighborhood.',
+        COMMUNITY: 'The community will continue to benefit from additional space dedicated to enriching the life of its residents.'
+    }
+}
 
-MIT._getTypeCount = function() {
+
+MIT._getTypeCount = function(includeMultiplier=true) {
     var typeCount = {};
 
     for(var mitId in sceneElements.core) {
         var element = sceneElements.core[mitId];
         if(element && element.options.type === 'commercial' && element.type) {
             if(typeCount[element.type]) {
-                typeCount[element.type] += element.options.multiplier;
+                typeCount[element.type] += includeMultiplier ? element.options.multiplier : 1;
             }
             else {
-                typeCount[element.type] = element.options.multiplier;
+                typeCount[element.type] = includeMultiplier ? element.options.multiplier : 1;
             }
         }
     }
@@ -141,10 +164,10 @@ MIT._getResidentialCount = function() {
     }
 
     if(x === 8) {
-        $('#valueBoard').attr('data-tooltip', 'Your development is isolated from the neighborhood and receives hostility from some, lack of known locals attracts crime.');
+        MIT.showTooltip('Your development is isolated from the neighborhood and receives hostility from some, lack of known locals attracts crime.');
     }
     else {
-        $('#valueBoard').removeAttr('data-tooltip');
+        MIT.showTooltip();
     }
 
     return { x: x, y: y };
@@ -194,7 +217,7 @@ MIT.getExternalCommercialValue = function() {
     }
 
     return sum*1000;
-}
+};
 
 MIT.updateValue = function(){
     var optimalValue = {
@@ -240,7 +263,7 @@ MIT.updateValue = function(){
     }
 
     MIT.updateProgress();
-}
+};
 
 MIT.updateFloatingText = function(value) {
     for (var i = 0; i < scene.children.length; i++) {
@@ -257,7 +280,7 @@ MIT.updateFloatingText = function(value) {
             child.geometry = textGeometry;
         }
     }
-}
+};
 
 // update bottom progress bar to indicate how far from exercise end you are
 MIT.updateProgress = function(value) {
@@ -272,4 +295,45 @@ MIT.updateProgress = function(value) {
         }
     }
     $('#activity-progress').html(html);
-}
+};
+
+
+MIT.chooseTooltip = function(blockType) {
+    var text;
+    var typeCount = MIT._getTypeCount(false);
+
+    // residential part does not have comments
+    if (blockType === 'HIGH_END_RESIDENTIAL' || blockType === 'AFFORDABLE')
+        return;
+
+    // if this is the first instance of this block type
+    if(typeCount[blockType] == 1){
+        // initial comments
+        text = MIT.comments.initial[blockType];
+    }
+    // else if we have this block instance, then we check for marginal value
+    // and output positive/negative comments accordingly
+    else {
+        typeCount = MIT._getTypeCount();
+        var marginalValue = MIT.objectType[blockType][typeCount[blockType]]['MV'];
+
+        if(marginalValue > 0) {
+            // positive marginal value comments
+            text = MIT.comments.positive[blockType];
+        }
+        else {
+            // negative marginal value comments
+            text = MIT.comments.negative[blockType];
+        }
+    }
+
+    MIT.showTooltip(text);
+};
+
+MIT.showTooltip = function(text) {
+    $('#valueBoard').removeAttr('data-tooltip');
+
+    if(text) {
+        $('#valueBoard').attr('data-tooltip', text);
+    }
+};
