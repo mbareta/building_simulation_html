@@ -33,14 +33,6 @@ $(document).ready(function(){
     }
 });
 
-// $('#webgl').on('mousedown', function(){
-//     $(this).css('cursor', 'move');
-// });
-
-// $('#webgl').on('mouseup', function(){
-//     $(this).css('cursor', 'auto');
-// });
-
 // curretnExercise == 0
 $('#splashBegin').on('click', function(event) {
     event.stopPropagation();
@@ -148,9 +140,11 @@ function assignObject(that) {
         MIT.updateValue();
         StateBuffer.storeState(sceneElements);
         document.saveUserProgress();
+
+        // show tooltip
+        MIT.chooseTooltip(type);
     }
 }
-
 
 // prevent event binding when in studio
 if($('.xblock-render').length == 0) {
