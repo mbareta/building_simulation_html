@@ -5,6 +5,7 @@ $(document).ready(function(){
         $('#splashResume')
         .css('visibility', 'initial')
         .on('click', function(event){
+            // FIXME: this does not work after refactor
             event.stopPropagation();
             $('#splash, #buildingSimulationContent').fadeOut();
             $('#valueBoard, .chevron').slideDown();
@@ -35,44 +36,11 @@ $(document).ready(function(){
 
 // curretnExercise == 0
 $('#splashBegin').on('click', function(event) {
-    event.stopPropagation();
-    $('#splash').fadeOut();
-    $('#firstExercise').fadeIn();
-    MIT.currentExercise++;
-    document.saveUserProgress();
+    MIT.nextPage(event);
 });
 
-// curretnExercise == 1
-$('#firstExerciseBegin').on('click', function() {
-    $('#firstExercise, #buildingSimulationContent').fadeOut();
-    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
-    setTimeout(function(){controls.autoRotate = false}, 1000);
-    MIT.currentExercise++;
-    document.saveUserProgress();
-})
-
-// curretnExercise == 2
-$('#secondExerciseBegin').on('click', function() {
-    $('#secondExercise, #buildingSimulationContent').fadeOut();
-    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
-    MIT.currentExercise++;
-    document.saveUserProgress();
-});
-
-// curretnExercise == 3
-$('#thirdExerciseBegin').on('click', function() {
-    $('#thirdExercise, #buildingSimulationContent').fadeOut();
-    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
-    MIT.currentExercise++;
-    buildScene();
-    document.saveUserProgress();
-});
-
-$('#conclusionBegin').on('click', function(){
-    $('#conclusion, #buildingSimulationContent').fadeOut();
-    $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
-    MIT.currentExercise++;
-    document.saveUserProgress();
+$('.continue-button').on('click', function(event){
+    MIT.nextPage(event);
 });
 
 $('#conclusionReset').on('click', function(){
@@ -80,6 +48,7 @@ $('#conclusionReset').on('click', function(){
     $('#conclusion').fadeOut();
     setSceneElements(true);
     MIT.currentExercise = 1;
+    MIT.progress = 1;
     setTimeout(function(){
         buildScene();
         MIT.updateValue();
@@ -87,26 +56,29 @@ $('#conclusionReset').on('click', function(){
     $('#firstExercise').fadeIn();
 });
 
+$('#summationContinue').on('click', function() {
+    MIT.bumpProgress();
+    MIT.hideSummations();
+});
+
 // three js and exercise stuff
 $(".blockMenuCommercialItem").click(function() {
-    $("#blockMenuCommercial").slideUp();
     assignObject(this);
 });
 
 $(".blockMenuResidentialItem").click(function() {
-    $("#blockMenuResidential").slideUp();
     assignObject(this);
 });
 
-$('#undo').on('click', function(){
-    updateScene(StateBuffer.undo());
-    MIT.updateValue();
-});
+// $('#undo').on('click', function(){
+//     updateScene(StateBuffer.undo());
+//     MIT.updateValue();
+// });
 
-$('#redo').on('click', function(){
-    updateScene(StateBuffer.redo());
-    MIT.updateValue();
-});
+// $('#redo').on('click', function(){
+//     updateScene(StateBuffer.redo());
+//     MIT.updateValue();
+// });
 
 $('#rotateLeft').on('click', function(){
     controls.rotateLeft(90);
@@ -126,6 +98,8 @@ $('#webgl').on('mouseup', function(){
 
 
 function assignObject(that) {
+    $("#blockMenuCommercial, #blockMenuResidential").slideUp();
+
     if(editObject){
         var type = $(that).data("type");
         var material = materialTypes[type];
@@ -147,6 +121,7 @@ function assignObject(that) {
 }
 
 // prevent event binding when in studio
+// attach event listeners on WebGL
 if($('.xblock-render').length == 0) {
     $(document).on('click', function(event){
         event.preventDefault();
