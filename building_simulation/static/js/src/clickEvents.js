@@ -43,6 +43,10 @@ $('.continue-button').on('click', function(event){
     MIT.nextPage(event);
 });
 
+$('.back').on('click', function(event){
+    MIT.previousPage(event);
+});
+
 $('#conclusionReset').on('click', function(){
     // reset MIT model
     $('#conclusion').fadeOut();

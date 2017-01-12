@@ -384,8 +384,10 @@ MIT.createHtmlTemplate = function(title, count, color) {
 
 MIT.nextPage = function(event) {
     event.stopPropagation();
+    if(MIT.progress === 7) {
+        return;
+    }
     switch(MIT.currentExercise) {
-        // switching from splash page to first page
         case 0:
             $('#splash').fadeOut();
             $('#firstExercise').fadeIn();
@@ -418,4 +420,46 @@ MIT.nextPage = function(event) {
     MIT.currentExercise++;
     MIT.bumpProgress();
     document.saveUserProgress();
+}
+
+MIT.previousPage = function(event) {
+    event.stopPropagation();
+
+    if(MIT.progress === 0) {
+        return;
+    }
+
+    MIT.currentExercise--;
+    MIT.progress--;
+    MIT.updateProgress();
+
+    switch(MIT.currentExercise) {
+        case 0:
+            $('#splash').fadeIn();
+            $('#firstExercise').fadeOut();
+            break;
+
+        case 1:
+            $('#firstExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            controls.autoRotate = true;
+            break;
+
+        case 2:
+            $('#secondExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
+
+        case 3:
+            $('#thirdExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            buildScene();
+            break;
+
+        case 4:
+            $('#conclusion, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
+
+    }
 }
