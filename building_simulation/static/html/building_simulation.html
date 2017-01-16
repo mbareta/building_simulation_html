@@ -1,6 +1,30 @@
 <div class="building_simulation_block">
   <div id="webgl"></div>
   <ul id="activity-progress"></ul>
+
+  <div class="summation">
+    <div class="summation-section">
+      <ul id="summationTop" class="align-bottom"></ul>
+    </div>
+    <hr>
+    <div class="summation-section">
+      <ul>
+        <li>
+          <div class="value-number">28,256,121 TBD</div>
+          <div class="value-label">Monetary Value</div>
+        </li>
+        <li>
+          <div class="value-number">14,307,034 TBD</div>
+          <div class="value-label">Social Value</div>
+        </li>
+      </ul>
+    </div>
+    <span class="button-container">
+      <button class="back">BACK</button>
+      <button id="summationContinue">CONTINUE</button>
+    </span>
+  </div>
+
   <div id="buildingSimulationContent">
     <div id="splash">
       <u>ACTIVITY</u>
@@ -18,7 +42,7 @@
       </p>
       <span class="button-container">
         <button class="back">BACK</button>
-        <button id="firstExerciseBegin">CONTINUE</button>
+        <button class="continue-button">CONTINUE</button>
       </span>
     </div>
     <div id="secondExercise">
@@ -30,7 +54,7 @@
       </p>
       <span class="button-container">
         <button class="back">BACK</button>
-        <button id="secondExerciseBegin">CONTINUE</button>
+        <button class="continue-button">CONTINUE</button>
       </span>
     </div>
     <div id="thirdExercise">
@@ -42,7 +66,7 @@
       </p>
       <span class="button-container">
         <button class="back">BACK</button>
-        <button id="thirdExerciseBegin">CONTINUE</button>
+        <button class="continue-button">CONTINUE</button>
       </span>
     </div>
     <div id="conclusion">
@@ -52,7 +76,7 @@
       <p>
         Congrats!
       </p>
-      <button id="conclusionBegin">FINISH</button>
+      <button>FINISH</button>
       <button id="conclusionReset">START OVER</button>
     </div>
   </div>

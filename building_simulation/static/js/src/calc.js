@@ -3,6 +3,7 @@ var MIT = {};
 // index of current exercise
 // should re-factor this to object instead of integer for human readability and robustness
 MIT.currentExercise = typeof currentExercise !== 'undefined' ? currentExercise : 0;
+MIT.progress = 0;
 
 // types of objects
 MIT.objectType = {
@@ -119,7 +120,7 @@ MIT.comments = {
     negative: {
         CONVENIENCE: 'Neighborhood is saturated with too many conveniences for the population currently living there. The sales are dropping.',
         LOCAL: 'A variety of services like a pharmacy and a walking clinic will benefit the community.',
-        RESTAURANT: 'Noise levels are getting high. Loud patrons exiting hours at closing times are disrupting residents (triggered at 6)',
+        RESTAURANT: 'Noise levels are getting high. Loud patrons exiting hours at closing times are disrupting residents',
         TOURISM: 'Streets are filled with the same low-quality products, it\'s starting to take away from the charm of the neighborhood.'
     },
     positive: {
@@ -246,20 +247,26 @@ MIT.updateValue = function(){
 
     // finish first exercise
     if(MIT.currentExercise == 2 && residentialValue/optimalValue.residential > 0.99) {
-        $('#valueBoard, .chevron, #persistentButtonContainer').hide();
-        $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
+        MIT.showSummations(function(){
+            $('#valueBoard, .chevron, #persistentButtonContainer').hide();
+            $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
+        });
     }
 
     // finish second exercise
     if(MIT.currentExercise == 3 && commercialValue/optimalValue.commercial > 0.8) {
-        $('#valueBoard, .chevron, #persistentButtonContainer').hide();
-        $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
+        MIT.showSummations(function(){
+            $('#valueBoard, .chevron, #persistentButtonContainer').hide();
+            $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
+        });
     }
 
     // finish third exercise
     if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.75) {
-        $('#valueBoard, .chevron, #persistentButtonContainer').hide();
-        $('#buildingSimulationContent, #conclusion').fadeIn(1200);
+        MIT.showSummations(function(){
+            $('#valueBoard, .chevron, #persistentButtonContainer').hide();
+            $('#buildingSimulationContent, #conclusion').fadeIn(1200);
+        });
     }
 
     MIT.updateProgress();
@@ -285,7 +292,7 @@ MIT.updateFloatingText = function(value) {
 // update bottom progress bar to indicate how far from exercise end you are
 MIT.updateProgress = function(value) {
     var html = '';
-    var highlightIndex = value === undefined ? MIT.currentExercise : value;
+    var highlightIndex = value === undefined ? MIT.progress : value;
     for(var i = 0; i < 8; i++) {
         if(i == highlightIndex) {
             html += '<li class="highlighted">&nbsp;</li>';
@@ -296,6 +303,11 @@ MIT.updateProgress = function(value) {
     }
     $('#activity-progress').html(html);
 };
+
+MIT.bumpProgress = function() {
+    MIT.progress++;
+    MIT.updateProgress();
+}
 
 
 MIT.chooseTooltip = function(blockType) {
@@ -337,3 +349,169 @@ MIT.showTooltip = function(text) {
         $('#valueBoard').attr('data-tooltip', text);
     }
 };
+
+MIT.showSummations = function(closeCallback) {
+    var residentialCount = MIT._getResidentialCount();
+    var commercialCount = MIT._getTypeCount();
+    var html = '';
+
+    html += MIT.createHtmlTemplate('High-End Residential', residentialCount.x, 'orange');
+    html += MIT.createHtmlTemplate('Affordable Housing', residentialCount.y, 'yellow');
+
+    for(var key in commercialCount) {
+        if(commercialCount.hasOwnProperty(key)) {
+            switch(key) {
+                case 'CONVENIENCE':
+                    var color = 'teal';
+                    var title = 'Local Convenience';
+                    break;
+                case 'GROCERY':
+                    var color = 'aqua';
+                    var title = 'Local Grocery';
+                    break;
+                case 'LOCAL':
+                    var color = 'pink';
+                    var title = 'Local Service';                    
+                    break;
+                case 'RESTAURANT':
+                    var color = 'brown';
+                    var title = 'Restaurant/Bar';                    
+                    break;
+                case 'TOURISM':
+                    var color = 'blue';
+                    var title = 'Tourism-oriented Low-quality Goods';                    
+                    break;
+                case 'ARTISAN':
+                    var color = 'green';
+                    var title = 'Artisan and Cultural Goods';                    
+                    break;
+                case 'COMMUNITY':
+                    var color = 'purple';
+                    var title = 'Community Equipment';                    
+                    break;
+                default:
+                    var color = 'purple';
+                    var title = 'Default';                    
+            }
+            html += MIT.createHtmlTemplate(title, commercialCount[key], color);
+        }
+    }
+
+    $('#summationTop').html(html);
+    $('.summation').fadeIn();
+
+    MIT.hideSummations = function(){
+        $('.summation').fadeOut();
+        closeCallback();
+    }
+};
+
+MIT.createHtmlTemplate = function(title, count, color) {
+    var elements = '';
+    var small = count > 4;
+    for (var i = count; i > 0; i--) {
+        elements += small ? '<li class="small"></li>' : '<li></li>';
+    }
+    return '<li><div class="type-title">' + title + '</div><ul class="type-list ' + color + '">' + elements + '</ul></li>';
+}
+
+MIT.nextPage = function(event) {
+    event.stopPropagation();
+    if(MIT.progress === 7) {
+        return;
+    }
+
+    switch(MIT.currentExercise) {
+        case 0:
+            $('#splash').fadeOut();
+            $('#firstExercise').fadeIn();
+            break;
+
+        case 1:
+            $('#firstExercise, #buildingSimulationContent').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            setTimeout(function(){controls.autoRotate = false}, 1000);
+            break;
+
+        case 2:
+            $('#secondExercise, #buildingSimulationContent').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            break;
+
+        case 3:
+            $('#thirdExercise, #buildingSimulationContent').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            buildScene();
+            break;
+
+        case 4:
+            $('#conclusion, #buildingSimulationContent').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            break;
+
+    }
+
+    MIT.currentExercise++;
+    MIT.bumpProgress();
+    document.saveUserProgress();
+}
+
+MIT.previousPage = function(event) {
+    event.stopPropagation();
+
+    if(MIT.progress === 0) {
+        return;
+    }
+
+    MIT.currentExercise--;
+    MIT.progress--;
+    MIT.updateProgress();
+    if(typeof MIT.hideSummations === 'function') {
+        MIT.hideSummations();
+    }
+
+    switch(MIT.currentExercise) {
+        case 0:
+            $('#splash').fadeIn();
+            $('#firstExercise').fadeOut();
+            break;
+
+        case 1:
+            $('#firstExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            controls.autoRotate = true;
+            break;
+
+        case 2:
+            $('#secondExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
+
+        case 3:
+            $('#thirdExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            buildScene();
+            break;
+
+        case 4:
+            $('#conclusion, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
+
+    }
+}
+
+MIT.resetExercise = function() {
+    $('#conclusion').fadeOut();
+    $('#firstExercise').fadeIn();
+
+    MIT.currentExercise = 0;
+    MIT.progress = 0;
+
+    setSceneElements(true);
+
+    setTimeout(function(){
+        buildScene();
+        MIT.updateValue();
+    }, 500);
+}
