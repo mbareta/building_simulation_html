@@ -120,7 +120,7 @@ MIT.comments = {
     negative: {
         CONVENIENCE: 'Neighborhood is saturated with too many conveniences for the population currently living there. The sales are dropping.',
         LOCAL: 'A variety of services like a pharmacy and a walking clinic will benefit the community.',
-        RESTAURANT: 'Noise levels are getting high. Loud patrons exiting hours at closing times are disrupting residents (triggered at 6)',
+        RESTAURANT: 'Noise levels are getting high. Loud patrons exiting hours at closing times are disrupting residents',
         TOURISM: 'Streets are filled with the same low-quality products, it\'s starting to take away from the charm of the neighborhood.'
     },
     positive: {
@@ -360,6 +360,7 @@ MIT.showSummations = function(closeCallback) {
 
     for(var key in commercialCount) {
         if(commercialCount.hasOwnProperty(key)) {
+            // TODO colors
             html += MIT.createHtmlTemplate(key, commercialCount[key], 'purple');
         }
     }
@@ -387,6 +388,9 @@ MIT.nextPage = function(event) {
     if(MIT.progress === 7) {
         return;
     }
+
+    console.log('PAGE NEXT, progress, exercise', MIT.progress, MIT.currentExercise);
+
     switch(MIT.currentExercise) {
         case 0:
             $('#splash').fadeOut();
@@ -429,9 +433,14 @@ MIT.previousPage = function(event) {
         return;
     }
 
+    console.log('PAGE NEXT, progress, exercise', MIT.progress, MIT.currentExercise);
+
     MIT.currentExercise--;
     MIT.progress--;
     MIT.updateProgress();
+    if(typeof MIT.hideSummations === 'function') {
+        MIT.hideSummations();
+    }
 
     switch(MIT.currentExercise) {
         case 0:
@@ -462,4 +471,19 @@ MIT.previousPage = function(event) {
             break;
 
     }
+}
+
+MIT.resetExercise = function() {
+    $('#conclusion').fadeOut();
+    $('#firstExercise').fadeIn();
+
+    MIT.currentExercise = 0;
+    MIT.progress = 0;
+
+    setSceneElements(true);
+
+    setTimeout(function(){
+        buildScene();
+        MIT.updateValue();
+    }, 500);
 }

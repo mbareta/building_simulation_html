@@ -1,71 +1,51 @@
 // content buttons
 $(document).ready(function(){
-    MIT.updateProgress(0);
     if(MIT.currentExercise > 0) {
         $('#splashResume')
         .css('visibility', 'initial')
         .on('click', function(event){
-            // FIXME: this does not work after refactor
-            event.stopPropagation();
             $('#splash, #buildingSimulationContent').fadeOut();
-            $('#valueBoard, .chevron').slideDown();
-            MIT.updateValue();
 
             switch(MIT.currentExercise) {
-                case(1): {
-                    $('#firstExercise').fadeIn();
-                    break;
-                }
                 case(2): {
-                    $('#secondExercise').fadeIn();
+                    MIT.progress = 2;
                     break;
                 }
                 case(3): {
-                    $('#thirdExercise').fadeIn();
+                    MIT.progress = 4;
+                    break;
+                }
+                case(4): {
+                    MIT.progress = 6;
                     break;
                 }
             }
-            // buildScene();
+
+            MIT.previousPage(event);
+
             setTimeout(function(){controls.autoRotate = false}, 1000);
         });
     }
     else {
-        $('#splashBegin').css('visibility', 'initial');
+        $('#splashBegin')
+        .css('visibility', 'initial')
+        .on('click', function(event) {
+            MIT.nextPage(event);
+        });
     }
 });
 
-// curretnExercise == 0
-$('#splashBegin').on('click', function(event) {
-    MIT.nextPage(event);
-});
+$('.continue-button').on('click', MIT.nextPage);
 
-$('.continue-button').on('click', function(event){
-    MIT.nextPage(event);
-});
+$('.back').on('click', MIT.previousPage);
 
-$('.back').on('click', function(event){
-    MIT.previousPage(event);
-});
-
-$('#conclusionReset').on('click', function(){
-    // reset MIT model
-    $('#conclusion').fadeOut();
-    setSceneElements(true);
-    MIT.currentExercise = 1;
-    MIT.progress = 1;
-    setTimeout(function(){
-        buildScene();
-        MIT.updateValue();
-    }, 500);
-    $('#firstExercise').fadeIn();
-});
+$('#conclusionReset').on('click', MIT.resetExercise);
 
 $('#summationContinue').on('click', function() {
     MIT.bumpProgress();
     MIT.hideSummations();
 });
 
-// three js and exercise stuff
 $(".blockMenuCommercialItem").click(function() {
     assignObject(this);
 });
@@ -76,7 +56,7 @@ $(".blockMenuResidentialItem").click(function() {
 
 // $('#undo').on('click', function(){
 //     updateScene(StateBuffer.undo());
-//     MIT.updateValue();
+//     MIT.updateValue(); // after uncommenting, put this in updateScene()
 // });
 
 // $('#redo').on('click', function(){
