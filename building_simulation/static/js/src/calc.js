@@ -360,8 +360,40 @@ MIT.showSummations = function(closeCallback) {
 
     for(var key in commercialCount) {
         if(commercialCount.hasOwnProperty(key)) {
-            // TODO colors
-            html += MIT.createHtmlTemplate(key, commercialCount[key], 'purple');
+            switch(key) {
+                case 'CONVENIENCE':
+                    var color = 'teal';
+                    var title = 'Local Convenience';
+                    break;
+                case 'GROCERY':
+                    var color = 'aqua';
+                    var title = 'Local Grocery';
+                    break;
+                case 'LOCAL':
+                    var color = 'pink';
+                    var title = 'Local Service';                    
+                    break;
+                case 'RESTAURANT':
+                    var color = 'brown';
+                    var title = 'Restaurant/Bar';                    
+                    break;
+                case 'TOURISM':
+                    var color = 'blue';
+                    var title = 'Tourism-oriented Low-quality Goods';                    
+                    break;
+                case 'ARTISAN':
+                    var color = 'green';
+                    var title = 'Artisan and Cultural Goods';                    
+                    break;
+                case 'COMMUNITY':
+                    var color = 'purple';
+                    var title = 'Community Equipment';                    
+                    break;
+                default:
+                    var color = 'purple';
+                    var title = 'Default';                    
+            }
+            html += MIT.createHtmlTemplate(title, commercialCount[key], color);
         }
     }
 
@@ -388,8 +420,6 @@ MIT.nextPage = function(event) {
     if(MIT.progress === 7) {
         return;
     }
-
-    console.log('PAGE NEXT, progress, exercise', MIT.progress, MIT.currentExercise);
 
     switch(MIT.currentExercise) {
         case 0:
@@ -432,8 +462,6 @@ MIT.previousPage = function(event) {
     if(MIT.progress === 0) {
         return;
     }
-
-    console.log('PAGE NEXT, progress, exercise', MIT.progress, MIT.currentExercise);
 
     MIT.currentExercise--;
     MIT.progress--;
