@@ -4,9 +4,13 @@ $(document).ready(function(){
         $('#splashResume')
         .css('visibility', 'initial')
         .on('click', function(event){
+            console.log('RESUME', MIT.currentExercise, MIT.progress);
             $('#splash, #buildingSimulationContent').fadeOut();
 
             switch(MIT.currentExercise) {
+                case(0):
+                    MIT.nextPage(event);
+                    return;
                 case(2): {
                     MIT.progress = 2;
                     break;
@@ -96,7 +100,7 @@ function assignObject(that) {
         editObject = undefined;
 
         MIT.updateValue();
-        StateBuffer.storeState(sceneElements);
+        // StateBuffer.storeState(sceneElements);
         document.saveUserProgress();
 
         // show tooltip

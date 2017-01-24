@@ -8,7 +8,7 @@
     </div>
     <hr>
     <div class="summation-section">
-      <ul>
+      <ul id="summationBottom">
         <li>
           <div class="value-number">28,256,121 TBD</div>
           <div class="value-label">Monetary Value</div>
@@ -34,11 +34,10 @@
     </div>
     <div id="firstExercise">
       <h1>
-        Instructions: Assignment #1
+        Part 1: Residential Value
       </h1>
       <p>
-        The goal is to maximize the value of the residential part of the building (second floor).
-        Click and drag to rotate the view.
+        Casco Viejo is a transitioning neighborhood with large variation in household income. You, as a real estate developer, are tasked with producing the optimal mix of affordable housing and medium to high income residential housing. Your goal is to maximize the TOTAL value of the residential units.
       </p>
       <span class="button-container">
         <button class="back">BACK</button>
@@ -47,10 +46,10 @@
     </div>
     <div id="secondExercise">
       <h1>
-        Instructions: Assignment #2
+        Part 2: Commercial Value
       </h1>
       <p>
-        The goal is to maximize the value of the commercial part of the building (first floor).
+        There are six commercial uses: convenience store, grocery store, local services (post office, laundromat, dentist, etc.), restaurant/bar, tourism-oriented goods (low-quality gift stores), artisan and cultural goods, community services (library, recreation center, meeting space, etc.). Assign uses to the eight available commercial units. As you add uses, you will receive notices and hints regarding the progress you are making. Keep an eye on your total value as you add use types, some allocations are better than others!
       </p>
       <span class="button-container">
         <button class="back">BACK</button>
@@ -59,10 +58,12 @@
     </div>
     <div id="thirdExercise">
       <h1>
-        Instructions: Assignment #3
+        Part 3: Neighborhood Externalities
       </h1>
       <p>
-        The goal is to maximize the value of the whole neighborhood.
+        The block you are developing is surrounded by twelve additional buildings. Your allocation decisions for both the residential and commercial units has the potential to increase the value of the neighboring buildings. Positive externalities associated with street traffic and residential mix may increase the patronage and use of the neighboring buildings.
+        <br>
+        In this final question, you are tasked with finding an optimal allocation for the residential and commercial uses that maximizes the value of these buildings along with the externalities received by the neighboring buildings.
       </p>
       <span class="button-container">
         <button class="back">BACK</button>
@@ -74,7 +75,7 @@
         Conclusion
       </h1>
       <p>
-        Congrats!
+        
       </p>
       <button>FINISH</button>
       <button id="conclusionReset">START OVER</button>
@@ -178,14 +179,15 @@
       </div>
 
       <div data-type="COMMUNITY" class="blockMenuCommercialItem">
-        <span class="menu-label purple"><a>Community equipment</a></span>
+        <span class="menu-label purple"><a>Community center</a></span>
       </div>
     </div>
   </div>
 
-    {% if scene_model %}
+    {% if False and scene_model %}
       <script type="text/javascript">
         var currentExercise = {{exercise_progress}};
+        var progress = {{progress}};
         var sceneModel = {{scene_model|safe}};
       </script>
     {% endif %}

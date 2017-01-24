@@ -30,6 +30,11 @@ class BuildingSimulationXBlock(XBlock, FileUploadMixin):
                                 scope=Scope.user_state,
                                 help="Progress of user's activity in exercise")
 
+    progress = Integer(display_name="Total Progress",
+                                default="0",
+                                scope=Scope.user_state,
+                                help="User's progress bar state")
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
@@ -43,7 +48,8 @@ class BuildingSimulationXBlock(XBlock, FileUploadMixin):
         """
         context = {
             'scene_model': self.scene_model.decode("utf8") if self.scene_model else {},
-            'exercise_progress': self.exercise_progress
+            'exercise_progress': self.exercise_progress,
+            'progress': self.progress
         }
         html = self.render_template('static/html/building_simulation.html', context)
         frag = Fragment(html)
@@ -107,6 +113,7 @@ class BuildingSimulationXBlock(XBlock, FileUploadMixin):
         """
         self.scene_model = data.get('scene_model').decode("utf8")
         self.exercise_progress = data.get('exercise_progress')
+        self.progress = data.get('progress')
 
         return {'result': 'success'}
 

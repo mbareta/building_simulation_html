@@ -30,7 +30,7 @@ $(function () {
     var radius = 90;
     var segments = 32;
 
-    camera.position.set(40, 0, 40);
+    camera.position.set(20, 0, 20);
 
     renderer.setSize(width, height);
 
