@@ -178,6 +178,8 @@ function setSceneElements(reset) {
             }
         };
     }
+
+    return sceneElements;
 };
 
 setSceneElements();
@@ -188,6 +190,8 @@ setSceneElements();
 // builds scene from scratch
 // very cpu expensive and should be used only when absolutely needed
 function buildScene() {
+    var sceneRenderElements = JSON.parse(JSON.stringify(sceneElements));
+
     for (var i = textures.length - 1; i >= 0; i--) {
         var textureData = textures[i];
         // do not build until all materials have loaded
@@ -197,19 +201,21 @@ function buildScene() {
     }
 
     // remove all blocks from the scene
-    for (var a = 0; a < scene.children.length; a++) {
-        var child = scene.children[a];
+    var i = scene.children.length;
+    while(i--) {
+        var child = scene.children[i];
         if(child && child.mitId) {
-            scene.children.splice(a, 1);
+            scene.remove(child);
         }
     }
 
-    for(var mitId in sceneElements.core) {
-        var element = sceneElements.core[mitId];
+    // rebuild scene
+    for(var mitId in sceneRenderElements.core) {
+        var element = sceneRenderElements.core[mitId];
         addBlock(element);
     }
-    for(var mitId in sceneElements.neighbors) {
-        var element = sceneElements.neighbors[mitId];
+    for(var mitId in sceneRenderElements.neighbors) {
+        var element = sceneRenderElements.neighbors[mitId];
         addBlock(element);
     }
 }
@@ -241,7 +247,7 @@ function rebuildElement(elementData) {
     for (var a = 0; a < scene.children.length; a++) {
         var child = scene.children[a];
         if(child && child.mitId === elementData.mitId) {
-            scene.children.splice(a, 1);
+            scene.remove(child);
         }
     }
     addBlock(elementData);
@@ -266,7 +272,7 @@ function addBlock(data) {
     scene.add(block);
 
     // show neighboring property value only on last exercise
-    if(MIT.currentExercise >= 3 && options.type === 'neighboring') {
+    if(MIT.currentExercise > 3 && options.type === 'neighboring') {
         addBlockText(data);
     }
 }

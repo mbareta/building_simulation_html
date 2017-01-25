@@ -9,14 +9,14 @@
     <hr>
     <div class="summation-section">
       <ul id="summationBottom">
-        <li>
+        <!--<li>
           <div class="value-number">28,256,121 TBD</div>
           <div class="value-label">Monetary Value</div>
         </li>
         <li>
           <div class="value-number">14,307,034 TBD</div>
           <div class="value-label">Social Value</div>
-        </li>
+        </li>-->
       </ul>
     </div>
     <span class="button-container">
@@ -95,25 +95,25 @@
         <button id="redo">REDO</button>
       </div>
       <hr> -->
-      <span>
-          RESIDENTIAL VALUE ($)
+      <span id="residential" class="value-board-entry">
+          TOTAL RESIDENTIAL VALUE ($)
           <span id="residentialValue" class="value-span">
             0
           </span>
-          <div id="residentialPercent" class="meter">
+          <div id="residentialPercent" class="meter blue">
             <span style="width: 0"></span>
           </div>
       </span>
-      <span>
-          COMMERCIAL VALUE ($)
+      <span id="commercial" class="value-board-entry">
+          TOTAL COMMERCIAL VALUE ($)
           <span id="commercialValue" class="value-span">
             0
           </span>
-          <div id="commercialPercent" class="meter">
+          <div id="commercialPercent" class="meter blue">
             <span style="width: 0"></span>
           </div>
       </span>
-      <span>
+      <span id="neighborhood" class="value-board-entry">
           NEIGHBORHOOD VALUE ($)
           <span id="socialValue" class="value-span">
             0
@@ -184,7 +184,7 @@
     </div>
   </div>
 
-    {% if False and scene_model %}
+    {% if scene_model %}
       <script type="text/javascript">
         var currentExercise = {{exercise_progress}};
         var progress = {{progress}};

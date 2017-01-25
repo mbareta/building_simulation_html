@@ -64,17 +64,17 @@ $(function () {
 
     window.addEventListener('resize', onWindowResize);
 
-    render();
-    // end init
-
-    // define functions below
-    function render() {
+    window.threeRender = function render() {
         controls.update();
         requestAnimationFrame(render);
         textLookAtCamera();
         renderer.render(scene, camera);
     }
 
+    window.threeRender();
+    // end init
+
+    // define functions below
     function createGround() {
         var texture = new THREE.TextureLoader().load('https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/floor.png');
         texture.wrapS = THREE.RepeatWrapping;

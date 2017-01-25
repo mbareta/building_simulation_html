@@ -283,6 +283,24 @@ MIT.updateValue = function(){
     MIT.updateProgress();
 };
 
+MIT.showValueBoardValues = function() {
+    $('.value-board-entry').hide();
+    switch(MIT.currentExercise) {
+        case 1:
+        case 2:
+            $('#residential').show();
+            break;
+        
+        case 3:
+            $('#commercial').show();
+            break;
+        
+        case 4:
+            $('#neighborhood').show();
+            break;
+    }
+};
+
 MIT.updateFloatingText = function(value) {
     for (var i = 0; i < scene.children.length; i++) {
         var child = scene.children[i];
@@ -417,13 +435,21 @@ MIT.showSummations = function(closeCallback) {
         }
     }
 
-    if(MIT.currentExercise === 2) {
+    if (MIT.currentExercise === 2) {
         var value = numberWithCommas(MIT.getResidentialValue().toFixed(0));
         var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Residential Value</div></li>';
     }
-    else if(MIT.currentExercise === 3 || MIT.currentExercise === 4) {
+    else if (MIT.currentExercise === 3) {
         var value = numberWithCommas(MIT.getCommercialValue().toFixed(0));
         var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Commercial Value</div></li>';
+    }
+    else if (MIT.currentExercise === 4) {
+        var residentialValue = MIT.getResidentialValue();
+        var commercialValue = MIT.getCommercialValue();
+        var neighborhoodValue = MIT.getExternalCommercialValue() + MIT.getExternalResidentialValue() + residentialValue + commercialValue;
+
+        var value = numberWithCommas(neighborhoodValue.toFixed(0));
+        var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Neighborhood Value</div></li>';
     }
 
     MIT.bumpProgress();
@@ -452,7 +478,7 @@ MIT.createHtmlTemplate = function(title, count, color) {
 }
 
 MIT.nextPage = function(event) {
-    event.stopPropagation();
+    event && event.stopPropagation();
     if(MIT.progress === 10) {
         return;
     }
@@ -492,6 +518,8 @@ MIT.nextPage = function(event) {
         MIT.currentExercise++;
     }
     MIT.bumpProgress();
+    MIT.showValueBoardValues();
+    
     document.saveUserProgress();
 }
 
@@ -568,21 +596,24 @@ MIT.previousPage = function(event) {
             MIT.showSummations();
             break;
     }
+    
+    MIT.showValueBoardValues();    
 }
 
 MIT.resetExercise = function() {
     $('#conclusion').fadeOut();
 
-    MIT.currentExercise = 1;
-    MIT.progress = 1;
+    MIT.currentExercise = 0;
+    MIT.progress = 0;
+    MIT.updateProgress();
 
     setSceneElements(true);
-
+    
     setTimeout(function(){
-        MIT.previousPage();
         buildScene();
         MIT.updateValue();
-    }, 500);
+        MIT.nextPage();
+    }, 0);
 }
 
 function numberWithCommas(x) {

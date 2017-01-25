@@ -4,29 +4,11 @@ $(document).ready(function(){
         $('#splashResume')
         .css('visibility', 'initial')
         .on('click', function(event){
-            console.log('RESUME', MIT.currentExercise, MIT.progress);
             $('#splash, #buildingSimulationContent').fadeOut();
-
-            switch(MIT.currentExercise) {
-                case(0):
-                    MIT.nextPage(event);
-                    return;
-                case(2): {
-                    MIT.progress = 2;
-                    break;
-                }
-                case(3): {
-                    MIT.progress = 4;
-                    break;
-                }
-                case(4): {
-                    MIT.progress = 6;
-                    break;
-                }
-            }
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
 
             MIT.previousPage(event);
-
+            MIT.updateValue();
             setTimeout(function(){controls.autoRotate = false}, 1000);
         });
     }
@@ -47,7 +29,23 @@ $('#conclusionReset').on('click', MIT.resetExercise);
 
 $('#summationContinue').on('click', function() {
     MIT.bumpProgress();
-    MIT.hideSummations();
+    if(typeof MIT.hideSummations === 'function') {
+        MIT.hideSummations();
+    }
+    else {
+        $('.summation').hide();
+        switch(MIT.currentExercise) {
+            case 2:
+                $('#buildingSimulationContent, #firstExercise').fadeIn(1200);
+                break;
+            case 3:
+                $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
+                break;
+            case 4:
+                $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
+                break;
+        }
+    }
 });
 
 $(".blockMenuCommercialItem").click(function() {
