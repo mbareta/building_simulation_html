@@ -64,14 +64,13 @@ $(function () {
 
     window.addEventListener('resize', onWindowResize);
 
-    window.threeRender = function render() {
+    (function render() {
         controls.update();
         requestAnimationFrame(render);
         textLookAtCamera();
         renderer.render(scene, camera);
-    }
+    })();
 
-    window.threeRender();
     // end init
 
     // define functions below
