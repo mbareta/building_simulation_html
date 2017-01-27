@@ -7,6 +7,7 @@ function BuildingSimulationXBlock(runtime, element) {
           var data = {
             scene_model: JSON.stringify(sceneElements),
             exercise_progress: MIT.currentExercise,
+            progress: MIT.progress,
           };
           $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
           });

@@ -32,7 +32,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.maxPolarAngle = Math.PI/2 - 0.6; // radians
 
 	this.minDistance = 40;
-	this.maxDistance = 90;
+	this.maxDistance = 65;
 
 	// 65 /*A*/, 83 /*S*/, 68 /*D*/
 	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, ROTATE: 65, ZOOM: 83, PAN: 68 };

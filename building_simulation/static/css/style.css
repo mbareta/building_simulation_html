@@ -62,12 +62,11 @@
 }
 
 .building_simulation_block #valueBoard {
+  display: none;
   left: 20px;
   bottom: 20px;
   width: 350px;
-  /*height: 330px;*/
-  height: 240px;
-  display: none;
+  padding: 0.5em 1em 0;  
 }
 
 .building_simulation_block .value-span {

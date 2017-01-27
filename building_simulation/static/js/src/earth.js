@@ -30,7 +30,7 @@ $(function () {
     var radius = 90;
     var segments = 32;
 
-    camera.position.set(40, 0, 40);
+    camera.position.set(20, 0, 20);
 
     renderer.setSize(width, height);
 
@@ -64,17 +64,16 @@ $(function () {
 
     window.addEventListener('resize', onWindowResize);
 
-    render();
-    // end init
-
-    // define functions below
-    function render() {
+    (function render() {
         controls.update();
         requestAnimationFrame(render);
         textLookAtCamera();
         renderer.render(scene, camera);
-    }
+    })();
 
+    // end init
+
+    // define functions below
     function createGround() {
         var texture = new THREE.TextureLoader().load('https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/floor.png');
         texture.wrapS = THREE.RepeatWrapping;

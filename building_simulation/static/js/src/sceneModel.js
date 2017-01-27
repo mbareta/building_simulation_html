@@ -178,12 +178,14 @@ function setSceneElements(reset) {
             }
         };
     }
+
+    return sceneElements;
 };
 
 setSceneElements();
 
 // wait for the above to execute
-setTimeout(function(){StateBuffer.init(sceneElements)}, 0);
+// setTimeout(function(){StateBuffer.init(sceneElements)}, 0);
 
 // builds scene from scratch
 // very cpu expensive and should be used only when absolutely needed
@@ -197,13 +199,15 @@ function buildScene() {
     }
 
     // remove all blocks from the scene
-    for (var a = 0; a < scene.children.length; a++) {
-        var child = scene.children[a];
+    var i = scene.children.length;
+    while(i--) {
+        var child = scene.children[i];
         if(child && child.mitId) {
-            scene.children.splice(a, 1);
+            scene.remove(child);
         }
     }
 
+    // rebuild scene
     for(var mitId in sceneElements.core) {
         var element = sceneElements.core[mitId];
         addBlock(element);
@@ -241,7 +245,7 @@ function rebuildElement(elementData) {
     for (var a = 0; a < scene.children.length; a++) {
         var child = scene.children[a];
         if(child && child.mitId === elementData.mitId) {
-            scene.children.splice(a, 1);
+            scene.remove(child);
         }
     }
     addBlock(elementData);

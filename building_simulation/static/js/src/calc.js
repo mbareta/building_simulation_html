@@ -3,9 +3,11 @@ var MIT = {};
 // index of current exercise
 // should re-factor this to object instead of integer for human readability and robustness
 MIT.currentExercise = typeof currentExercise !== 'undefined' ? currentExercise : 0;
-MIT.progress = 0;
+MIT.progress = typeof progress !== 'undefined' ? progress : 0;
 
 // types of objects
+// l=1, g=1, s=1, r=3, t=1, a=2, ce=3
+
 MIT.objectType = {
     CONVENIENCE: {
         1:  { TV: 150, MV: 150, TVE: 200, MVE: 200 },
@@ -127,6 +129,28 @@ MIT.comments = {
         LOCAL: 'Cascos population is small, likely only a few local services are needed.',
         ARTISAN: 'A variety of cultural goods allows many different artists to continue to make a living within the neighborhood.',
         COMMUNITY: 'The community will continue to benefit from additional space dedicated to enriching the life of its residents.'
+    },
+    residential: {
+        HIGH_END_RESIDENTIAL: [
+            'There is large demand for high-income residential units in the neighborhood. You will have no trouble finding tenants.',
+            'You have increased your revenues. Demand for high-income residential units has still not been met.',
+            'Excellent allocation!',
+            'Keep track of the total value bar as you continue to allocate units.',
+            '',
+            '',
+            '',
+            'Consider a mix of affordable and high-income housing to increase the total value of your residential development.'
+        ],
+        AFFORDABLE: [
+            'There is a need for affordable residential units within this neighborhood. You have housed a grateful family.',
+            'You have housed another family. If 6 high-end residential units are allocated at this point then a solution text will come up.',
+            'Keep track of the total value bar as you continue to allocate units.',
+            '',
+            'To increase your total value consider a different mix.',
+            'You are at risk of losing money on your real-estate development by including too many affordable units.',
+            'Keep an eye on your total value. High-end housing residential units are needed to increase the total value.',
+            'It is not financially sustainable to construct 8 affordable units. Consider a different mix.'
+        ]
     }
 }
 
@@ -164,112 +188,128 @@ MIT._getResidentialCount = function() {
         }
     }
 
-    if(x === 8) {
-        MIT.showTooltip('Your development is isolated from the neighborhood and receives hostility from some, lack of known locals attracts crime.');
-    }
-    else {
-        MIT.showTooltip();
-    }
-
     return { x: x, y: y };
 }
 
-// monetary value
 MIT.getResidentialValue = function() {
     var data = MIT._getResidentialCount();
     var x = data.x;
     var y = data.y;
 
-    return 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y;
+
+    var data = {
+        monetary: 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y,
+        social: 350000*y - 10000*y*y
+    };
+
+    data.total = data.monetary + data.social;
+
+    return data;
 };
 
-// social + monetary value == total value
-MIT.getExternalResidentialValue = function() {
-    var data = MIT._getResidentialCount();
-    var x = data.x;
-    var y = data.y;
-
-    return 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y + 350000*y - 10000*y*y;
-};
-
-// monetary value
 MIT.getCommercialValue = function() {
-    var sum = 0;
+    var sumMonetary = 0;
+    var sumTotal = 0;
     var typeCount = MIT._getTypeCount();
 
     for(key in typeCount) {
         // find value from objectType object
         // goes something like this: MIT.objectType['COMMUNITY'][2]['TV'] => 120
-        sum += MIT.objectType[key][typeCount[key]]['TV'];
-    }
-
-    return sum*1000;
-}
-
-// monetary + social value == total value
-MIT.getExternalCommercialValue = function() {
-    var sum = 0;
-    var typeCount = MIT._getTypeCount();
-
-    for(key in typeCount) {
-        // find value from objectType object
+        sumMonetary += MIT.objectType[key][typeCount[key]]['TV'];
+        
         // goes something like this: MIT.objectType['COMMUNITY'][2]['TVE'] => 2500
-        sum += MIT.objectType[key][typeCount[key]]['TVE'];
+        sumTotal += MIT.objectType[key][typeCount[key]]['TVE'];
     }
 
-    return sum*1000;
-};
+    var data = {
+        monetary: sumMonetary*1000,
+        total: sumTotal*1000
+    };
+
+    data.social = data.total - data.monetary;
+
+    return data;
+}
 
 MIT.updateValue = function(){
     var optimalValue = {
         residential: 2967197,
         commercial: 2250000,
         total: 5217197,
+        neighborhoodMonetary: 5217197, // same as total
+        neighborhoodSocial: 2160000+3310000, //2285000 - Lyndsey
         neighborhood: 16452197
     };
 
     var residentialValue = MIT.getResidentialValue();
     var commercialValue = MIT.getCommercialValue();
-    var neighborhoodValue = MIT.getExternalCommercialValue() + MIT.getExternalResidentialValue() + residentialValue + commercialValue;
+    var neighborhoodValue = residentialValue.total + commercialValue.total;
+    var neighborhoodMonetaryValue = residentialValue.monetary + commercialValue.monetary;
+    var neighborhoodSocialValue = residentialValue.social + commercialValue.social;
 
     // update floating text
     MIT.updateFloatingText(neighborhoodValue - residentialValue - commercialValue);
 
     // update view
-    $("#residentialValue").text(numeral(residentialValue).format('0,0'));
-    $("#residentialPercent").children().css('width', (Math.round((residentialValue/optimalValue.residential)*100) + '%'));
+    $("#residentialValue").text(numeral(residentialValue.monetary).format('0,0'));
+    $("#residentialPercent").children().css('width', (Math.round((residentialValue.monetary/optimalValue.residential)*100) + '%'));
 
-    $("#commercialValue").text(numeral(commercialValue).format('0,0'));
-    $("#commercialPercent").children().css('width', (Math.round((commercialValue/optimalValue.commercial)*100) + '%'));
+    $("#commercialValue").text(numeral(commercialValue.monetary).format('0,0'));
+    $("#commercialPercent").children().css('width', (Math.round((commercialValue.monetary/optimalValue.commercial)*100) + '%'));
 
-    $("#socialValue").text(numeral(neighborhoodValue).format('0,0'));
-    $("#socialPercent").children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhood)*100) + '%'));
+    // neighborhood
+    $('#monetaryNeighborhoodValue').text(numeral(neighborhoodMonetaryValue).format('0,0'));
+    $('#monetaryNeighborhoodPercent').children().css('width', (Math.round((neighborhoodMonetaryValue/optimalValue.neighborhoodMonetary)*100) + '%'));
+
+    $('#socialNeighborhoodValue').text(numeral(neighborhoodSocialValue).format('0,0'));
+    $('#socialNeighborhoodPercent').children().css('width', (Math.round((neighborhoodSocialValue/optimalValue.neighborhoodSocial)*100) + '%'));
+    
+    $('#neighborhoodValue').text(numeral(neighborhoodValue).format('0,0'));
+    $('#neighborhoodPercent').children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhood)*100) + '%'));
 
     // finish first exercise
-    if(MIT.currentExercise == 2 && residentialValue/optimalValue.residential > 0.99) {
-        MIT.showSummations(function(){
+    if(MIT.currentExercise == 2 && residentialValue.monetary/optimalValue.residential > 0.99) {
+        MIT.showSummations(function callback(){
             $('#valueBoard, .chevron, #persistentButtonContainer').hide();
             $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
         });
     }
 
     // finish second exercise
-    if(MIT.currentExercise == 3 && commercialValue/optimalValue.commercial > 0.8) {
-        MIT.showSummations(function(){
+    if(MIT.currentExercise == 3 && commercialValue.monetary/optimalValue.commercial > 0.8) {
+        MIT.showSummations(function callback(){
             $('#valueBoard, .chevron, #persistentButtonContainer').hide();
             $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
         });
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.75) {
-        MIT.showSummations(function(){
-            $('#valueBoard, .chevron, #persistentButtonContainer').hide();
+    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.5) {
+        MIT.showSummations(function callback(){
+            $('#valueBoard, .chevron, #persistentButtonContainer, #thirdExercise, #buildingSimulationContent').hide();
             $('#buildingSimulationContent, #conclusion').fadeIn(1200);
         });
     }
 
     MIT.updateProgress();
+};
+
+MIT.showValueBoardValues = function() {
+    $('.value-board-entry').hide();
+    switch(MIT.currentExercise) {
+        case 1:
+        case 2:
+            $('#residential').show();
+            break;
+        
+        case 3:
+            $('#commercial').show();
+            break;
+        
+        case 4:
+            $('#neighborhood').show();
+            break;
+    }
 };
 
 MIT.updateFloatingText = function(value) {
@@ -293,8 +333,8 @@ MIT.updateFloatingText = function(value) {
 MIT.updateProgress = function(value) {
     var html = '';
     var highlightIndex = value === undefined ? MIT.progress : value;
-    for(var i = 0; i < 8; i++) {
-        if(i == highlightIndex) {
+    for(var i = 0; i <= 10; i++) {
+        if(i === highlightIndex) {
             html += '<li class="highlighted">&nbsp;</li>';
         }
         else {
@@ -309,33 +349,41 @@ MIT.bumpProgress = function() {
     MIT.updateProgress();
 }
 
-
 MIT.chooseTooltip = function(blockType) {
     var text;
-    var typeCount = MIT._getTypeCount(false);
 
-    // residential part does not have comments
-    if (blockType === 'HIGH_END_RESIDENTIAL' || blockType === 'AFFORDABLE')
-        return;
+    // residential part
+    if (blockType === 'HIGH_END_RESIDENTIAL' || blockType === 'AFFORDABLE') {
+        var residentialCount = MIT._getResidentialCount();
+        var count = blockType === 'HIGH_END_RESIDENTIAL' ? residentialCount.x : residentialCount.y;
+        var comment = MIT.comments.residential[blockType][count];
 
-    // if this is the first instance of this block type
-    if(typeCount[blockType] == 1){
-        // initial comments
-        text = MIT.comments.initial[blockType];
-    }
-    // else if we have this block instance, then we check for marginal value
-    // and output positive/negative comments accordingly
-    else {
-        typeCount = MIT._getTypeCount();
-        var marginalValue = MIT.objectType[blockType][typeCount[blockType]]['MV'];
-
-        if(marginalValue > 0) {
-            // positive marginal value comments
-            text = MIT.comments.positive[blockType];
+        if(comment !== '') {
+            text = comment;
         }
+    }
+    // commercial part
+    else {
+        var typeCount = MIT._getTypeCount(false);    
+        // if this is the first instance of this block type
+        if(typeCount[blockType] == 1){
+            // initial comments
+            text = MIT.comments.initial[blockType];
+        }
+        // else if we have this block instance, then we check for marginal value
+        // and output positive/negative comments accordingly
         else {
-            // negative marginal value comments
-            text = MIT.comments.negative[blockType];
+            typeCount = MIT._getTypeCount();
+            var marginalValue = MIT.objectType[blockType][typeCount[blockType]]['MV'];
+
+            if(marginalValue > 0) {
+                // positive marginal value comments
+                text = MIT.comments.positive[blockType];
+            }
+            else {
+                // negative marginal value comments
+                text = MIT.comments.negative[blockType];
+            }
         }
     }
 
@@ -353,10 +401,10 @@ MIT.showTooltip = function(text) {
 MIT.showSummations = function(closeCallback) {
     var residentialCount = MIT._getResidentialCount();
     var commercialCount = MIT._getTypeCount();
-    var html = '';
+    var topHtml = '';
 
-    html += MIT.createHtmlTemplate('High-End Residential', residentialCount.x, 'orange');
-    html += MIT.createHtmlTemplate('Affordable Housing', residentialCount.y, 'yellow');
+    topHtml += MIT.createHtmlTemplate('High-End Residential', residentialCount.x, 'orange');
+    topHtml += MIT.createHtmlTemplate('Affordable Housing', residentialCount.y, 'yellow');
 
     for(var key in commercialCount) {
         if(commercialCount.hasOwnProperty(key)) {
@@ -387,22 +435,45 @@ MIT.showSummations = function(closeCallback) {
                     break;
                 case 'COMMUNITY':
                     var color = 'purple';
-                    var title = 'Community Equipment';                    
+                    var title = 'Community Center';                    
                     break;
                 default:
                     var color = 'purple';
                     var title = 'Default';                    
             }
-            html += MIT.createHtmlTemplate(title, commercialCount[key], color);
+            topHtml += MIT.createHtmlTemplate(title, commercialCount[key], color);
         }
     }
 
-    $('#summationTop').html(html);
+    if (MIT.currentExercise === 2) {
+        var value = numberWithCommas(MIT.getResidentialValue().monetary.toFixed(0));
+        var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Residential Value</div></li>';
+    }
+    else if (MIT.currentExercise === 3) {
+        var value = numberWithCommas(MIT.getCommercialValue().monetary.toFixed(0));
+        var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Commercial Value</div></li>';
+    }
+    else if (MIT.currentExercise === 4) {
+        var residentialValue = MIT.getResidentialValue();
+        var commercialValue = MIT.getCommercialValue();
+
+        var bottomHtml = '<li><div class="value-number">'+ numeral(residentialValue.monetary + commercialValue.monetary).format('0,0') +'</div><div class="value-label">Monetary Value</div></li>' +
+        '<li><div class="value-number">'+ numeral(residentialValue.social + commercialValue.social).format('0,0') +'</div><div class="value-label">Social Value</div></li>';
+    }
+
+    MIT.bumpProgress();
+
+    $('#summationTop').html(topHtml);
+    $('#summationBottom').html(bottomHtml);
     $('.summation').fadeIn();
 
-    MIT.hideSummations = function(){
-        $('.summation').fadeOut();
-        closeCallback();
+    if(closeCallback && typeof closeCallback === 'function') {
+        MIT.hideSummations = function(){
+            $('.summation').fadeOut();
+            if(typeof closeCallback === 'function') {
+                closeCallback();
+            }
+        }
     }
 };
 
@@ -416,15 +487,15 @@ MIT.createHtmlTemplate = function(title, count, color) {
 }
 
 MIT.nextPage = function(event) {
-    event.stopPropagation();
-    if(MIT.progress === 7) {
+    event && event.stopPropagation();
+    if(MIT.progress === 10) {
         return;
     }
 
     switch(MIT.currentExercise) {
         case 0:
             $('#splash').fadeOut();
-            $('#firstExercise').fadeIn();
+            $('#firstExercise, #buildingSimulationContent').fadeIn();
             break;
 
         case 1:
@@ -451,67 +522,109 @@ MIT.nextPage = function(event) {
 
     }
 
-    MIT.currentExercise++;
+    // do not increment past 4
+    if(MIT.currentExercise < 4) {
+        MIT.currentExercise++;
+    }
     MIT.bumpProgress();
+    MIT.showValueBoardValues();
+    
     document.saveUserProgress();
 }
 
 MIT.previousPage = function(event) {
-    event.stopPropagation();
+    event && event.stopPropagation();
 
     if(MIT.progress === 0) {
         return;
     }
 
-    MIT.currentExercise--;
     MIT.progress--;
     MIT.updateProgress();
-    if(typeof MIT.hideSummations === 'function') {
-        MIT.hideSummations();
-    }
 
-    switch(MIT.currentExercise) {
+    /*
+        PROGRESS:
+        0 splash page, just show Start button
+        1 First exercise instructions page
+        2 First exercise
+        3 First exercise summation page
+        4 Second exercise instructions page
+        5 Second exercise
+        6 Second exercise summation page
+        7 Third exercise instructions page
+        8 Third exercise
+        9 Third exercise summation page
+        10 conclusion
+    */
+    switch(MIT.progress) {
         case 0:
-            $('#splash').fadeIn();
-            $('#firstExercise').fadeOut();
+            MIT.currentExercise = 0;    
+            $('#firstExercise').hide();
+            $('#splash, #buildingSimulationContent').fadeIn();
             break;
-
         case 1:
+            MIT.currentExercise = 1;    
             $('#firstExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
-            controls.autoRotate = true;
             break;
-
         case 2:
-            $('#secondExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            MIT.currentExercise = 2;    
+            $('.summation').fadeOut();
             break;
-
         case 3:
-            $('#thirdExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
-            buildScene();
+            MIT.currentExercise = 2;
+            $('#secondExercise, #buildingSimulationContent').hide();
+            MIT.progress--; // counter the bumpProgress from showSummations
+            MIT.showSummations();
             break;
-
         case 4:
-            $('#conclusion, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            MIT.currentExercise = 2;
+            $('#secondExercise, #buildingSimulationContent').fadeIn();
             break;
-
+        case 5:
+            MIT.currentExercise = 3;
+            $('.summation').fadeOut();
+            break;
+        case 6:
+            MIT.currentExercise = 3;
+            $('#thirdExercise, #buildingSimulationContent').hide();
+            MIT.progress--; // counter the bumpProgress from showSummations
+            MIT.showSummations();
+            break;
+        case 7:
+            MIT.currentExercise = 4;            
+            $('#thirdExercise, #buildingSimulationContent').fadeIn();
+            break;
+        case 8:
+            MIT.currentExercise = 4;            
+            $('.summation').fadeOut();
+            break;
+        case 9:
+            MIT.currentExercise = 4;            
+            $('#conclusion, #buildingSimulationContent').hide();
+            MIT.progress--; // counter the bumpProgress from showSummations
+            MIT.showSummations();
+            break;
     }
+    
+    MIT.showValueBoardValues();    
 }
 
 MIT.resetExercise = function() {
     $('#conclusion').fadeOut();
-    $('#firstExercise').fadeIn();
 
     MIT.currentExercise = 0;
     MIT.progress = 0;
+    MIT.updateProgress();
 
     setSceneElements(true);
-
+    
     setTimeout(function(){
         buildScene();
         MIT.updateValue();
-    }, 500);
+        MIT.nextPage();
+    }, 0);
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

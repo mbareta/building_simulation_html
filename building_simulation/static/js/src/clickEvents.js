@@ -5,24 +5,10 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(event){
             $('#splash, #buildingSimulationContent').fadeOut();
-
-            switch(MIT.currentExercise) {
-                case(2): {
-                    MIT.progress = 2;
-                    break;
-                }
-                case(3): {
-                    MIT.progress = 4;
-                    break;
-                }
-                case(4): {
-                    MIT.progress = 6;
-                    break;
-                }
-            }
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
 
             MIT.previousPage(event);
-
+            MIT.updateValue();
             setTimeout(function(){controls.autoRotate = false}, 1000);
         });
     }
@@ -41,9 +27,29 @@ $('.back').on('click', MIT.previousPage);
 
 $('#conclusionReset').on('click', MIT.resetExercise);
 
+$('#finish').on('click', function(){
+    parent.postMessage(JSON.stringify({action:'continue'}),'*');
+});
+
 $('#summationContinue').on('click', function() {
     MIT.bumpProgress();
-    MIT.hideSummations();
+    if(typeof MIT.hideSummations === 'function') {
+        MIT.hideSummations();
+    }
+    else {
+        $('.summation').hide();
+        switch(MIT.currentExercise) {
+            case 2:
+                $('#buildingSimulationContent, #firstExercise').fadeIn(1200);
+                break;
+            case 3:
+                $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
+                break;
+            case 4:
+                $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
+                break;
+        }
+    }
 });
 
 $(".blockMenuCommercialItem").click(function() {
@@ -96,7 +102,7 @@ function assignObject(that) {
         editObject = undefined;
 
         MIT.updateValue();
-        StateBuffer.storeState(sceneElements);
+        // StateBuffer.storeState(sceneElements);
         document.saveUserProgress();
 
         // show tooltip
