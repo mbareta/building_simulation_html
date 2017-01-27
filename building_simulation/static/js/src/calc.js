@@ -6,6 +6,8 @@ MIT.currentExercise = typeof currentExercise !== 'undefined' ? currentExercise :
 MIT.progress = typeof progress !== 'undefined' ? progress : 0;
 
 // types of objects
+// l=1, g=1, s=1, r=3, t=1, a=2, ce=3
+
 MIT.objectType = {
     CONVENIENCE: {
         1:  { TV: 150, MV: 150, TVE: 200, MVE: 200 },
@@ -194,70 +196,79 @@ MIT.getResidentialValue = function() {
     var x = data.x;
     var y = data.y;
 
-    return 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y;
-};
 
-MIT.getExternalResidentialValue = function() {
-    var data = MIT._getResidentialCount();
-    var x = data.x;
-    var y = data.y;
+    var data = {
+        monetary: 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y,
+        social: 350000*y - 10000*y*y
+    };
 
-    return 300000*x + 175000*y + 90000*x*Math.pow(y, (2/3)) - 10000*y*y + 350000*y - 10000*y*y;
+    data.total = data.monetary + data.social;
+
+    return data;
 };
 
 MIT.getCommercialValue = function() {
-    var sum = 0;
+    var sumMonetary = 0;
+    var sumTotal = 0;
     var typeCount = MIT._getTypeCount();
 
     for(key in typeCount) {
         // find value from objectType object
         // goes something like this: MIT.objectType['COMMUNITY'][2]['TV'] => 120
-        sum += MIT.objectType[key][typeCount[key]]['TV'];
-    }
-
-    return sum*1000;
-}
-
-MIT.getExternalCommercialValue = function() {
-    var sum = 0;
-    var typeCount = MIT._getTypeCount();
-
-    for(key in typeCount) {
-        // find value from objectType object
+        sumMonetary += MIT.objectType[key][typeCount[key]]['TV'];
+        
         // goes something like this: MIT.objectType['COMMUNITY'][2]['TVE'] => 2500
-        sum += MIT.objectType[key][typeCount[key]]['TVE'];
+        sumTotal += MIT.objectType[key][typeCount[key]]['TVE'];
     }
 
-    return sum*1000;
-};
+    var data = {
+        monetary: sumMonetary*1000,
+        total: sumTotal*1000
+    };
+
+    data.social = data.total - data.monetary;
+
+    return data;
+}
 
 MIT.updateValue = function(){
     var optimalValue = {
         residential: 2967197,
         commercial: 2250000,
         total: 5217197,
+        neighborhoodMonetary: 5217197, // same as total
+        neighborhoodSocial: 2160000+3310000, //2285000 - Lyndsey
         neighborhood: 16452197
     };
 
     var residentialValue = MIT.getResidentialValue();
     var commercialValue = MIT.getCommercialValue();
-    var neighborhoodValue = MIT.getExternalCommercialValue() + MIT.getExternalResidentialValue() + residentialValue + commercialValue;
+    var neighborhoodValue = residentialValue.total + commercialValue.total;
+    var neighborhoodMonetaryValue = residentialValue.monetary + commercialValue.monetary;
+    var neighborhoodSocialValue = residentialValue.social + commercialValue.social;
 
     // update floating text
     MIT.updateFloatingText(neighborhoodValue - residentialValue - commercialValue);
 
     // update view
-    $("#residentialValue").text(numeral(residentialValue).format('0,0'));
-    $("#residentialPercent").children().css('width', (Math.round((residentialValue/optimalValue.residential)*100) + '%'));
+    $("#residentialValue").text(numeral(residentialValue.monetary).format('0,0'));
+    $("#residentialPercent").children().css('width', (Math.round((residentialValue.monetary/optimalValue.residential)*100) + '%'));
 
-    $("#commercialValue").text(numeral(commercialValue).format('0,0'));
-    $("#commercialPercent").children().css('width', (Math.round((commercialValue/optimalValue.commercial)*100) + '%'));
+    $("#commercialValue").text(numeral(commercialValue.monetary).format('0,0'));
+    $("#commercialPercent").children().css('width', (Math.round((commercialValue.monetary/optimalValue.commercial)*100) + '%'));
 
-    $("#socialValue").text(numeral(neighborhoodValue).format('0,0'));
-    $("#socialPercent").children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhood)*100) + '%'));
+    // neighborhood
+    $('#monetaryNeighborhoodValue').text(numeral(neighborhoodMonetaryValue).format('0,0'));
+    $('#monetaryNeighborhoodPercent').children().css('width', (Math.round((neighborhoodMonetaryValue/optimalValue.neighborhoodMonetary)*100) + '%'));
+
+    $('#socialNeighborhoodValue').text(numeral(neighborhoodSocialValue).format('0,0'));
+    $('#socialNeighborhoodPercent').children().css('width', (Math.round((neighborhoodSocialValue/optimalValue.neighborhoodSocial)*100) + '%'));
+    
+    $('#neighborhoodValue').text(numeral(neighborhoodValue).format('0,0'));
+    $('#neighborhoodPercent').children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhood)*100) + '%'));
 
     // finish first exercise
-    if(MIT.currentExercise == 2 && residentialValue/optimalValue.residential > 0.99) {
+    if(MIT.currentExercise == 2 && residentialValue.monetary/optimalValue.residential > 0.99) {
         MIT.showSummations(function callback(){
             $('#valueBoard, .chevron, #persistentButtonContainer').hide();
             $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
@@ -265,7 +276,7 @@ MIT.updateValue = function(){
     }
 
     // finish second exercise
-    if(MIT.currentExercise == 3 && commercialValue/optimalValue.commercial > 0.8) {
+    if(MIT.currentExercise == 3 && commercialValue.monetary/optimalValue.commercial > 0.8) {
         MIT.showSummations(function callback(){
             $('#valueBoard, .chevron, #persistentButtonContainer').hide();
             $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
@@ -273,7 +284,7 @@ MIT.updateValue = function(){
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.75) {
+    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.5) {
         MIT.showSummations(function callback(){
             $('#valueBoard, .chevron, #persistentButtonContainer, #thirdExercise, #buildingSimulationContent').hide();
             $('#buildingSimulationContent, #conclusion').fadeIn(1200);
@@ -337,7 +348,6 @@ MIT.bumpProgress = function() {
     MIT.progress++;
     MIT.updateProgress();
 }
-
 
 MIT.chooseTooltip = function(blockType) {
     var text;
@@ -436,20 +446,19 @@ MIT.showSummations = function(closeCallback) {
     }
 
     if (MIT.currentExercise === 2) {
-        var value = numberWithCommas(MIT.getResidentialValue().toFixed(0));
+        var value = numberWithCommas(MIT.getResidentialValue().monetary.toFixed(0));
         var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Residential Value</div></li>';
     }
     else if (MIT.currentExercise === 3) {
-        var value = numberWithCommas(MIT.getCommercialValue().toFixed(0));
+        var value = numberWithCommas(MIT.getCommercialValue().monetary.toFixed(0));
         var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Commercial Value</div></li>';
     }
     else if (MIT.currentExercise === 4) {
         var residentialValue = MIT.getResidentialValue();
         var commercialValue = MIT.getCommercialValue();
-        var neighborhoodValue = MIT.getExternalCommercialValue() + MIT.getExternalResidentialValue() + residentialValue + commercialValue;
 
-        var value = numberWithCommas(neighborhoodValue.toFixed(0));
-        var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Neighborhood Value</div></li>';
+        var bottomHtml = '<li><div class="value-number">'+ numeral(residentialValue.monetary + commercialValue.monetary).format('0,0') +'</div><div class="value-label">Monetary Value</div></li>' +
+        '<li><div class="value-number">'+ numeral(residentialValue.social + commercialValue.social).format('0,0') +'</div><div class="value-label">Social Value</div></li>';
     }
 
     MIT.bumpProgress();

@@ -114,11 +114,27 @@
           </div>
       </span>
       <span id="neighborhood" class="value-board-entry">
-          NEIGHBORHOOD VALUE ($)
-          <span id="socialValue" class="value-span">
+          MONETARY VALUE ($)
+          <span id="monetaryNeighborhoodValue" class="value-span">
             0
           </span>
-          <div id="socialPercent" class="meter blue">
+          <div id="monetaryNeighborhoodPercent" class="meter">
+            <span style="width: 0"></span>
+          </div>
+          <br>
+          SOCIAL VALUE ($)
+          <span id="socialNeighborhoodValue" class="value-span">
+            0
+          </span>
+          <div id="socialNeighborhoodPercent" class="meter">
+            <span style="width: 0"></span>
+          </div>
+          <br>
+          TOTAL NEIGHBORHOOD VALUE ($)
+          <span id="neighborhoodValue" class="value-span">
+            0
+          </span>
+          <div id="neighborhoodPercent" class="meter blue">
             <span style="width: 0"></span>
           </div>
       </span>
@@ -184,7 +200,7 @@
     </div>
   </div>
 
-    {% if scene_model %}
+    {% if False and scene_model %}
       <script type="text/javascript">
         var currentExercise = {{exercise_progress}};
         var progress = {{progress}};
