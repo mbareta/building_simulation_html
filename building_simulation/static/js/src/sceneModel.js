@@ -190,8 +190,6 @@ setSceneElements();
 // builds scene from scratch
 // very cpu expensive and should be used only when absolutely needed
 function buildScene() {
-    var sceneRenderElements = JSON.parse(JSON.stringify(sceneElements));
-
     for (var i = textures.length - 1; i >= 0; i--) {
         var textureData = textures[i];
         // do not build until all materials have loaded
@@ -210,12 +208,12 @@ function buildScene() {
     }
 
     // rebuild scene
-    for(var mitId in sceneRenderElements.core) {
-        var element = sceneRenderElements.core[mitId];
+    for(var mitId in sceneElements.core) {
+        var element = sceneElements.core[mitId];
         addBlock(element);
     }
-    for(var mitId in sceneRenderElements.neighbors) {
-        var element = sceneRenderElements.neighbors[mitId];
+    for(var mitId in sceneElements.neighbors) {
+        var element = sceneElements.neighbors[mitId];
         addBlock(element);
     }
 }
