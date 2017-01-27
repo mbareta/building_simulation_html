@@ -77,7 +77,7 @@
       <p>
         
       </p>
-      <button>FINISH</button>
+      <button id="finish">FINISH</button>
       <button id="conclusionReset">START OVER</button>
     </div>
   </div>
@@ -200,7 +200,7 @@
     </div>
   </div>
 
-    {% if False and scene_model %}
+    {% if scene_model %}
       <script type="text/javascript">
         var currentExercise = {{exercise_progress}};
         var progress = {{progress}};

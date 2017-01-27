@@ -27,6 +27,10 @@ $('.back').on('click', MIT.previousPage);
 
 $('#conclusionReset').on('click', MIT.resetExercise);
 
+$('#finish').on('click', function(){
+    parent.postMessage(JSON.stringify({action:'continue'}),'*');
+});
+
 $('#summationContinue').on('click', function() {
     MIT.bumpProgress();
     if(typeof MIT.hideSummations === 'function') {
