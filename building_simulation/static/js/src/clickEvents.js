@@ -46,16 +46,6 @@ $(".blockMenuResidentialItem").click(function() {
     assignObject(this);
 });
 
-// $('#undo').on('click', function(){
-//     updateScene(StateBuffer.undo());
-//     MIT.updateValue(); // after uncommenting, put this in updateScene()
-// });
-
-// $('#redo').on('click', function(){
-//     updateScene(StateBuffer.redo());
-//     MIT.updateValue();
-// });
-
 $('#rotateLeft').on('click', function(){
     controls.rotateLeft(90);
 });
@@ -88,7 +78,6 @@ function assignObject(that) {
         editObject = undefined;
 
         MIT.updateValue();
-        // StateBuffer.storeState(sceneElements);
         document.saveUserProgress();
 
         // show tooltip

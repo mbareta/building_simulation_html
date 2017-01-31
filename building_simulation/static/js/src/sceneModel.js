@@ -184,9 +184,6 @@ function setSceneElements(reset) {
 
 setSceneElements();
 
-// wait for the above to execute
-// setTimeout(function(){StateBuffer.init(sceneElements)}, 0);
-
 // builds scene from scratch
 // very cpu expensive and should be used only when absolutely needed
 function buildScene() {
