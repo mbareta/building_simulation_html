@@ -5,6 +5,13 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(event){
             $('#splash, #buildingSimulationContent').fadeOut();
+            $(this).css('visibility', 'hidden');
+            $('#splashBegin')
+                .css('visibility', 'initial')
+                .on('click', function(event) {
+                    MIT.nextPage(event);
+                });
+
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
 
             MIT.previousPage(event);
@@ -29,27 +36,6 @@ $('#conclusionReset').on('click', MIT.resetExercise);
 
 $('#finish').on('click', function(){
     parent.postMessage(JSON.stringify({action:'continue'}),'*');
-});
-
-$('#summationContinue').on('click', function() {
-    MIT.bumpProgress();
-    if(typeof MIT.hideSummations === 'function') {
-        MIT.hideSummations();
-    }
-    else {
-        $('.summation').hide();
-        switch(MIT.currentExercise) {
-            case 2:
-                $('#buildingSimulationContent, #firstExercise').fadeIn(1200);
-                break;
-            case 3:
-                $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
-                break;
-            case 4:
-                $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
-                break;
-        }
-    }
 });
 
 $(".blockMenuCommercialItem").click(function() {
@@ -141,7 +127,7 @@ if($('.xblock-render').length == 0) {
             if (block.mitId) {
                 var element = getElement(block.mitId);
                 if(element &&
-                    (element.options.type === 'residential' || (element.options.type === 'commercial' && MIT.currentExercise > 2))
+                    (element.options.type === 'residential' || (element.options.type === 'commercial' && MIT.currentExercise > 1))
                 ) {
                     var selector = '#blockMenu' + capitalizeFirstLetter(block.type);
                     $(selector).fadeIn();
