@@ -104,31 +104,57 @@ if($('.xblock-render').length == 0) {
             return;
         }
 
-        mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+        var block = getObjectUnderMouse(event);
 
-        raycaster.setFromCamera(mouse, camera);
-
-        var intersects = raycaster.intersectObjects(scene.children);
-
-        if ( intersects.length > 0 ) {
-            var block = intersects[0].object;
-            if (block.mitId) {
-                var element = getElement(block.mitId);
-                if(element &&
-                    (element.options.type === 'residential' || (element.options.type === 'commercial' && MIT.currentExercise > 1))
-                ) {
-                    var selector = '#blockMenu' + capitalizeFirstLetter(block.type);
-                    $(selector).fadeIn();
-                    block.material = materialTypes['SELECTED'];
-                    editObject = block;
-                }
+        if (block && block.mitId) {
+            var element = getElement(block.mitId);
+            if(element &&
+                (element.options.type === 'residential' || (element.options.type === 'commercial' && MIT.currentExercise > 1))
+            ) {
+                var selector = '#blockMenu' + capitalizeFirstLetter(block.type);
+                $(selector).fadeIn();
+                block.material = materialTypes['SELECTED'];
+                editObject = block;
             }
+        }
+    });
+
+    var highlightedObject;
+    var highlightedObjectMaterial;
+
+    $('#webgl').on('mousemove', function(event){
+        var block = getObjectUnderMouse(event);
+
+        if(highlightedObject) {
+            highlightedObject.material = highlightedObjectMaterial;
+            highlightedObject = null;
+        }
+
+        if(block && block.mitId && block.type !== 'neighboring') {
+            highlightedObject = block;
+            highlightedObjectMaterial = block.material;
+
+            block.material = materialTypes['HIGHLIGHTED'];
         }
     });
 }
 
 // helper function
+function getObjectUnderMouse(event) {
+    mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    var intersects = raycaster.intersectObjects(scene.children);
+
+    if ( intersects.length > 0 ) {
+        return intersects[0].object;
+    }
+
+    return null;
+}
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }

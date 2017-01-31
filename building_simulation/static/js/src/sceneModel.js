@@ -2,6 +2,7 @@ var segments = 32;
 
 var materialTypes = {
     DEFAULT: undefined,
+    HIGHLIGHTED: new THREE.MeshLambertMaterial({color: 0xAAAAAA, wireframe: true}),
     NEIGHBOR: new THREE.MeshLambertMaterial({color: 0x552B2B}),
     SELECTED: new THREE.MeshLambertMaterial({color: 0x555555}),
     FONT: new THREE.MeshPhongMaterial({color: 0xbbbbbb, shininess: 50, emissive: 0x222222}),
