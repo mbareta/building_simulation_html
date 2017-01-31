@@ -270,7 +270,7 @@ function addBlock(data) {
     scene.add(block);
 
     // show neighboring property value only on last exercise
-    if(MIT.currentExercise > 3 && options.type === 'neighboring') {
+    if(MIT.currentExercise === 3 && options.type === 'neighboring') {
         addBlockText(data);
     }
 }

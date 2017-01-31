@@ -216,7 +216,7 @@ MIT.getCommercialValue = function() {
         // find value from objectType object
         // goes something like this: MIT.objectType['COMMUNITY'][2]['TV'] => 120
         sumMonetary += MIT.objectType[key][typeCount[key]]['TV'];
-        
+
         // goes something like this: MIT.objectType['COMMUNITY'][2]['TVE'] => 2500
         sumTotal += MIT.objectType[key][typeCount[key]]['TVE'];
     }
@@ -237,8 +237,8 @@ MIT.updateValue = function(){
         commercial: 2250000,
         total: 5217197,
         neighborhoodMonetary: 5217197, // same as total
-        neighborhoodSocial: 2160000+3310000, //2285000 - Lyndsey
-        neighborhood: 16452197
+        neighborhoodSocial: 5650000,
+        neighborhood: 9077143 //16452197
     };
 
     var residentialValue = MIT.getResidentialValue();
@@ -248,7 +248,7 @@ MIT.updateValue = function(){
     var neighborhoodSocialValue = residentialValue.social + commercialValue.social;
 
     // update floating text
-    MIT.updateFloatingText(neighborhoodValue - residentialValue - commercialValue);
+    MIT.updateFloatingText(neighborhoodValue - residentialValue.monetary - commercialValue.monetary);
 
     // update view
     $("#residentialValue").text(numeral(residentialValue.monetary).format('0,0'));
@@ -263,50 +263,38 @@ MIT.updateValue = function(){
 
     $('#socialNeighborhoodValue').text(numeral(neighborhoodSocialValue).format('0,0'));
     $('#socialNeighborhoodPercent').children().css('width', (Math.round((neighborhoodSocialValue/optimalValue.neighborhoodSocial)*100) + '%'));
-    
+
     $('#neighborhoodValue').text(numeral(neighborhoodValue).format('0,0'));
     $('#neighborhoodPercent').children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhood)*100) + '%'));
 
     // finish first exercise
-    if(MIT.currentExercise == 2 && residentialValue.monetary/optimalValue.residential > 0.99) {
-        MIT.showSummations(function callback(){
-            $('#valueBoard, .chevron, #persistentButtonContainer').hide();
-            $('#buildingSimulationContent, #secondExercise').fadeIn(1200);
-        });
+    if(MIT.currentExercise == 1 && residentialValue.monetary/optimalValue.residential > 0.99) {
+        MIT.nextPage();
     }
 
     // finish second exercise
-    if(MIT.currentExercise == 3 && commercialValue.monetary/optimalValue.commercial > 0.8) {
-        MIT.showSummations(function callback(){
-            $('#valueBoard, .chevron, #persistentButtonContainer').hide();
-            $('#buildingSimulationContent, #thirdExercise').fadeIn(1200);
-        });
+    if(MIT.currentExercise == 2 && commercialValue.monetary/optimalValue.commercial > 0.9) {
+        MIT.nextPage();
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 4 && neighborhoodValue/optimalValue.neighborhood > 0.5) {
-        MIT.showSummations(function callback(){
-            $('#valueBoard, .chevron, #persistentButtonContainer, #thirdExercise, #buildingSimulationContent').hide();
-            $('#buildingSimulationContent, #conclusion').fadeIn(1200);
-        });
+    if(MIT.currentExercise == 3 && neighborhoodValue/optimalValue.neighborhood > 0.85) {
+        MIT.nextPage();
     }
-
-    MIT.updateProgress();
 };
 
 MIT.showValueBoardValues = function() {
     $('.value-board-entry').hide();
     switch(MIT.currentExercise) {
         case 1:
-        case 2:
             $('#residential').show();
             break;
-        
-        case 3:
+
+        case 2:
             $('#commercial').show();
             break;
-        
-        case 4:
+
+        case 3:
             $('#neighborhood').show();
             break;
     }
@@ -344,11 +332,6 @@ MIT.updateProgress = function(value) {
     $('#activity-progress').html(html);
 };
 
-MIT.bumpProgress = function() {
-    MIT.progress++;
-    MIT.updateProgress();
-}
-
 MIT.chooseTooltip = function(blockType) {
     var text;
 
@@ -364,7 +347,7 @@ MIT.chooseTooltip = function(blockType) {
     }
     // commercial part
     else {
-        var typeCount = MIT._getTypeCount(false);    
+        var typeCount = MIT._getTypeCount(false);
         // if this is the first instance of this block type
         if(typeCount[blockType] == 1){
             // initial comments
@@ -419,41 +402,41 @@ MIT.showSummations = function(closeCallback) {
                     break;
                 case 'LOCAL':
                     var color = 'pink';
-                    var title = 'Local Service';                    
+                    var title = 'Local Service';
                     break;
                 case 'RESTAURANT':
                     var color = 'brown';
-                    var title = 'Restaurant/Bar';                    
+                    var title = 'Restaurant/Bar';
                     break;
                 case 'TOURISM':
                     var color = 'blue';
-                    var title = 'Tourism-oriented Low-quality Goods';                    
+                    var title = 'Tourism-oriented Low-quality Goods';
                     break;
                 case 'ARTISAN':
                     var color = 'green';
-                    var title = 'Artisan and Cultural Goods';                    
+                    var title = 'Artisan and Cultural Goods';
                     break;
                 case 'COMMUNITY':
                     var color = 'purple';
-                    var title = 'Community Center';                    
+                    var title = 'Community Center';
                     break;
                 default:
                     var color = 'purple';
-                    var title = 'Default';                    
+                    var title = 'Default';
             }
             topHtml += MIT.createHtmlTemplate(title, commercialCount[key], color);
         }
     }
 
-    if (MIT.currentExercise === 2) {
+    if (MIT.currentExercise === 1) {
         var value = numberWithCommas(MIT.getResidentialValue().monetary.toFixed(0));
         var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Residential Value</div></li>';
     }
-    else if (MIT.currentExercise === 3) {
+    else if (MIT.currentExercise === 2) {
         var value = numberWithCommas(MIT.getCommercialValue().monetary.toFixed(0));
         var bottomHtml = '<li><div class="value-number">'+ value +'</div><div class="value-label">Commercial Value</div></li>';
     }
-    else if (MIT.currentExercise === 4) {
+    else if (MIT.currentExercise === 3) {
         var residentialValue = MIT.getResidentialValue();
         var commercialValue = MIT.getCommercialValue();
 
@@ -461,20 +444,11 @@ MIT.showSummations = function(closeCallback) {
         '<li><div class="value-number">'+ numeral(residentialValue.social + commercialValue.social).format('0,0') +'</div><div class="value-label">Social Value</div></li>';
     }
 
-    MIT.bumpProgress();
+    // MIT.bumpProgress();
 
     $('#summationTop').html(topHtml);
     $('#summationBottom').html(bottomHtml);
     $('.summation').fadeIn();
-
-    if(closeCallback && typeof closeCallback === 'function') {
-        MIT.hideSummations = function(){
-            $('.summation').fadeOut();
-            if(typeof closeCallback === 'function') {
-                closeCallback();
-            }
-        }
-    }
 };
 
 MIT.createHtmlTemplate = function(title, count, color) {
@@ -488,49 +462,95 @@ MIT.createHtmlTemplate = function(title, count, color) {
 
 MIT.nextPage = function(event) {
     event && event.stopPropagation();
-    if(MIT.progress === 10) {
+    if(MIT.progress === 11) {
         return;
     }
 
-    switch(MIT.currentExercise) {
+    MIT.progress++;
+    MIT.updateProgress();
+
+    switch(MIT.progress) {
         case 0:
-            $('#splash').fadeOut();
-            $('#firstExercise, #buildingSimulationContent').fadeIn();
+            MIT.currentExercise = 0;
+            $('#splash, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
-
         case 1:
-            $('#firstExercise, #buildingSimulationContent').fadeOut();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
-            setTimeout(function(){controls.autoRotate = false}, 1000);
+            MIT.currentExercise = 1;
+            $('#splash').hide();
+            $('#firstExercise').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
-
         case 2:
-            $('#secondExercise, #buildingSimulationContent').fadeOut();
+            MIT.currentExercise = 1;
+            $('#firstExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
-
         case 3:
-            $('#thirdExercise, #buildingSimulationContent').fadeOut();
+            MIT.currentExercise = 1;
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            MIT.showSummations();
+            break;
+        case 4:
+            MIT.currentExercise = 2;
+            $('.summation').hide();
+            $('#secondExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
+        case 5:
+            MIT.currentExercise = 2;
+            $('#secondExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            break;
+        case 6:
+            MIT.currentExercise = 2;
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            MIT.showSummations();
+            break;
+        case 7:
+            MIT.currentExercise = 3;
+            $('.summation').hide();
+            $('#thirdExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             buildScene();
             break;
-
-        case 4:
-            $('#conclusion, #buildingSimulationContent').fadeOut();
+        case 8:
+            MIT.currentExercise = 3;
+            $('#thirdExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
-
+        case 9:
+            MIT.currentExercise = 3;
+            MIT.showSummations();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
+        case 10:
+            MIT.currentExercise = 3;
+            $('.summation').hide();
+            $('#conclusion, #buildingSimulationContent').show();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            break;
     }
 
-    // do not increment past 4
-    if(MIT.currentExercise < 4) {
-        MIT.currentExercise++;
-    }
-    MIT.bumpProgress();
     MIT.showValueBoardValues();
-    
+
     document.saveUserProgress();
 }
+
+/*
+    PROGRESS:
+    0 splash page, just show Start button, exercise 0
+    1 First exercise instructions page, exercise 1
+    2 First exercise, exercise 1
+    3 First exercise summation page, exercise 1
+    4 Second exercise instructions page, exercise 2
+    5 Second exercise, exercise 2
+    6 Second exercise summation page, exercise 2
+    7 Third exercise instructions page, exercise 3
+    8 Third exercise, exercise 3
+    9 Third exercise summation page, exercise 3
+    10 conclusion, exercise 3
+*/
 
 MIT.previousPage = function(event) {
     event && event.stopPropagation();
@@ -542,71 +562,64 @@ MIT.previousPage = function(event) {
     MIT.progress--;
     MIT.updateProgress();
 
-    /*
-        PROGRESS:
-        0 splash page, just show Start button
-        1 First exercise instructions page
-        2 First exercise
-        3 First exercise summation page
-        4 Second exercise instructions page
-        5 Second exercise
-        6 Second exercise summation page
-        7 Third exercise instructions page
-        8 Third exercise
-        9 Third exercise summation page
-        10 conclusion
-    */
     switch(MIT.progress) {
         case 0:
-            MIT.currentExercise = 0;    
+            MIT.currentExercise = 0;
             $('#firstExercise').hide();
             $('#splash, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
         case 1:
-            MIT.currentExercise = 1;    
+            MIT.currentExercise = 1;
             $('#firstExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
         case 2:
-            MIT.currentExercise = 2;    
+            MIT.currentExercise = 1;
             $('.summation').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
         case 3:
-            MIT.currentExercise = 2;
+            MIT.currentExercise = 1;
             $('#secondExercise, #buildingSimulationContent').hide();
-            MIT.progress--; // counter the bumpProgress from showSummations
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             MIT.showSummations();
             break;
         case 4:
             MIT.currentExercise = 2;
             $('#secondExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
         case 5:
-            MIT.currentExercise = 3;
+            MIT.currentExercise = 2;
             $('.summation').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
         case 6:
-            MIT.currentExercise = 3;
+            MIT.currentExercise = 2;
             $('#thirdExercise, #buildingSimulationContent').hide();
-            MIT.progress--; // counter the bumpProgress from showSummations
             MIT.showSummations();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
         case 7:
-            MIT.currentExercise = 4;            
+            MIT.currentExercise = 3;
             $('#thirdExercise, #buildingSimulationContent').fadeIn();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
         case 8:
-            MIT.currentExercise = 4;            
+            MIT.currentExercise = 3;
             $('.summation').fadeOut();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
         case 9:
-            MIT.currentExercise = 4;            
+            MIT.currentExercise = 3;
             $('#conclusion, #buildingSimulationContent').hide();
-            MIT.progress--; // counter the bumpProgress from showSummations
             MIT.showSummations();
+            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
             break;
     }
-    
-    MIT.showValueBoardValues();    
+
+    MIT.showValueBoardValues();
 }
 
 MIT.resetExercise = function() {
@@ -617,7 +630,7 @@ MIT.resetExercise = function() {
     MIT.updateProgress();
 
     setSceneElements(true);
-    
+
     setTimeout(function(){
         buildScene();
         MIT.updateValue();
