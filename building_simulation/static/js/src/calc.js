@@ -444,8 +444,6 @@ MIT.showSummations = function(closeCallback) {
         '<li><div class="value-number">'+ numeral(residentialValue.social + commercialValue.social).format('0,0') +'</div><div class="value-label">Social Value</div></li>';
     }
 
-    // MIT.bumpProgress();
-
     $('#summationTop').html(topHtml);
     $('#summationBottom').html(bottomHtml);
     $('.summation').fadeIn();
