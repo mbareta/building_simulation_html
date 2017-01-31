@@ -63,7 +63,6 @@ class BuildingSimulationXBlock(XBlock, FileUploadMixin):
         frag.add_javascript(self.resource_string("static/js/lib/Detector.js"))
         frag.add_javascript(self.resource_string("static/js/lib/OrbitControls.example.js"))
         frag.add_javascript(self.resource_string("static/js/lib/numeral.min.js"))
-        frag.add_javascript(self.resource_string("static/js/lib/stateBuffer.js"))
 
         frag.add_javascript(self.resource_string("static/js/src/building_simulation.js"))
         frag.add_javascript(self.resource_string("static/js/src/sceneModel.js"))
