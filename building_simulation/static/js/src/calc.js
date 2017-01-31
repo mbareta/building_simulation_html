@@ -275,7 +275,6 @@ MIT.updateValue = function(){
             MIT.nextPage();
         }
         $('#persistentButtonContainer .continue-button').removeAttr('disabled');
-        debugger;
     }
 
     // finish second exercise
@@ -284,7 +283,6 @@ MIT.updateValue = function(){
             MIT.nextPage();
         }
         $('#persistentButtonContainer .continue-button').removeAttr('disabled');
-        debugger;
     }
 
     // finish third exercise
@@ -293,7 +291,6 @@ MIT.updateValue = function(){
             MIT.nextPage();
         }
         $('#persistentButtonContainer .continue-button').removeAttr('disabled');
-        debugger;
     }
 };
 
