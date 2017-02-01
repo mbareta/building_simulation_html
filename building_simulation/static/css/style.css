@@ -15,7 +15,7 @@
 }
 
 .building_simulation_block span, .building_simulation_block button, .building_simulation_block a {
-  font-family: Roboto;
+  font-family: Hind;
   color: white;
 }
 
@@ -66,7 +66,7 @@
   left: 20px;
   bottom: 20px;
   width: 350px;
-  padding: 0.5em 1em 0;  
+  padding: 0.5em 1em 0;
 }
 
 .building_simulation_block .value-span {
@@ -103,7 +103,7 @@
   text-transform: uppercase;
   box-sizing: border-box;
   border-radius: 1px;
-  font-family: Roboto;
+  font-family: Hind;
 }
 
 .building_simulation_block .menu-label a {

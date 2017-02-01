@@ -54,7 +54,7 @@
 }
 
 .building_simulation_block #buildingSimulationContent p {
-  font-family: Roboto;
+  font-family: Hind;
 }
 
 .building_simulation_block .button-container {
@@ -64,17 +64,20 @@
 }
 
 .building_simulation_block button {
-  padding: 0.6em 2em;
+  padding: 6px 60px;
   margin: 1em auto;
-  min-width: 250px;
-  min-height: 50px;
-  font-family: Roboto;
-  font-size: 24px;
+  font-family: Roboto, Hind;
   color: white;
   background: transparent;
   border: 1px solid white;
   box-shadow: 0 0 0;
   text-shadow: 0 0 0;
+
+  font-size: 14px;
+  font-size: .875rem;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .building_simulation_block button.back {
@@ -135,7 +138,7 @@
   text-align: left;
   display: inline-block;
   margin: 2px !important;
-  font-family: "Roboto Condensed";
+  font-family: Hind;
   min-width: 15%;
   vertical-align: top;
 }
