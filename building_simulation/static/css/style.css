@@ -19,22 +19,6 @@
   color: white;
 }
 
-.building_simulation_block button {
-  background: transparent;
-  border: 1px solid white;
-  padding: 0.4em;
-  color: white;
-  box-shadow: 0 0 0;
-  text-shadow: 0 0 0;
-  border-radius: 0;
-  font-weight: 400;
-}
-
-.building_simulation_block button:hover {
-  background: white;
-  color: black;
-}
-
 .building_simulation_block #webgl {
   position: fixed;
   top: 0;
