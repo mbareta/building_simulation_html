@@ -24,6 +24,7 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(event) {
             MIT.nextPage(event);
+            setTimeout(function(){controls.autoRotate = false}, 1000);
         });
     }
 });
