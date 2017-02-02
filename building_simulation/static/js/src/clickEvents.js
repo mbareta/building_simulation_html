@@ -24,6 +24,7 @@ $(document).ready(function(){
         .css('visibility', 'initial')
         .on('click', function(event) {
             MIT.nextPage(event);
+            setTimeout(function(){controls.autoRotate = false}, 1000);
         });
     }
 });
@@ -131,7 +132,8 @@ if($('.xblock-render').length == 0) {
         }
 
         if(block && block.mitId && block.type !== 'neighboring') {
-            if(highlightedObject == editObject) {
+            if(block == editObject) {
+                block.material = materialTypes['SELECTED'];
                 return;
             }
             highlightedObject = block;

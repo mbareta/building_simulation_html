@@ -588,6 +588,7 @@ MIT.previousPage = function(event) {
             break;
         case 2:
             MIT.currentExercise = 1;
+            MIT.updateValue();
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
@@ -604,6 +605,7 @@ MIT.previousPage = function(event) {
             break;
         case 5:
             MIT.currentExercise = 2;
+            MIT.updateValue();
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
@@ -620,6 +622,7 @@ MIT.previousPage = function(event) {
             break;
         case 8:
             MIT.currentExercise = 3;
+            MIT.updateValue();
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
             break;
