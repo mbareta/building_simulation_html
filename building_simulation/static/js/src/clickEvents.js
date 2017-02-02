@@ -131,7 +131,8 @@ if($('.xblock-render').length == 0) {
         }
 
         if(block && block.mitId && block.type !== 'neighboring') {
-            if(highlightedObject == editObject) {
+            if(block == editObject) {
+                block.material = materialTypes['SELECTED'];
                 return;
             }
             highlightedObject = block;
