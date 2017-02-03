@@ -523,7 +523,8 @@ MIT.nextPage = function(event) {
             $('.summation').hide();
             $('#thirdExercise, #buildingSimulationContent').fadeIn();
             $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
-            buildScene();
+            setSceneElements(true);
+            setTimeout(buildScene, 0);
             break;
         case 8:
             MIT.currentExercise = 3;
