@@ -3,11 +3,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 .xblock-render .building_simulation_block #buildingSimulationContent {
-  position: absolute;
-  top: 60px;
-  left: 30px;
-  width: 600px;
-  height: 300px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: auto;
+  left: auto;
 }
 
 .xblock-render .building_simulation_block #buildingSimulationContent div {

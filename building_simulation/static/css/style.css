@@ -1,6 +1,6 @@
 .building_simulation_block {
   position: inherit;
-  height: 300px;
+  height: 540px;
 }
 
 .xblock-render .building_simulation_block #webgl {
