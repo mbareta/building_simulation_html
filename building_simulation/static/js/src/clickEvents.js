@@ -12,6 +12,7 @@ $(document).ready(function(){
                     MIT.nextPage(event);
                 });
 
+            $('#double-click-units').remove(); // remove double-click helper text            
             $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
 
             MIT.previousPage(event);
@@ -104,6 +105,8 @@ if($('.xblock-render').length == 0) {
         if(event.button != 0) {
             return;
         }
+
+        $('#double-click-units').remove(); // remove double-click helper text
 
         var block = getObjectUnderMouse(event);
 

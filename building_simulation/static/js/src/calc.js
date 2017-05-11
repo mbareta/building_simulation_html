@@ -482,47 +482,47 @@ MIT.nextPage = function(event) {
         case 0:
             MIT.currentExercise = 0;
             $('#splash, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 1:
             MIT.currentExercise = 1;
             $('#splash').hide();
             $('#firstExercise').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 2:
             MIT.currentExercise = 1;
             MIT.updateValue();
             $('#firstExercise, #buildingSimulationContent').hide();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
         case 3:
             MIT.currentExercise = 1;
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             MIT.showSummations();
             break;
         case 4:
             MIT.currentExercise = 2;
             $('.summation').hide();
             $('#secondExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 5:
             MIT.currentExercise = 2;
             MIT.updateValue();
             $('#secondExercise, #buildingSimulationContent').hide();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
         case 6:
             MIT.currentExercise = 2;
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             MIT.showSummations();
             break;
         case 7:
             MIT.currentExercise = 3;
             $('.summation').hide();
             $('#thirdExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             setSceneElements(true);
             setTimeout(buildScene, 0);
             break;
@@ -530,18 +530,18 @@ MIT.nextPage = function(event) {
             MIT.currentExercise = 3;
             MIT.updateValue();
             $('#thirdExercise, #buildingSimulationContent').hide();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
         case 9:
             MIT.currentExercise = 3;
             MIT.showSummations();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 10:
             MIT.currentExercise = 3;
             $('.summation').hide();
             $('#conclusion, #buildingSimulationContent').show();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
     }
 
@@ -580,58 +580,58 @@ MIT.previousPage = function(event) {
             MIT.currentExercise = 0;
             $('#firstExercise').hide();
             $('#splash, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 1:
             MIT.currentExercise = 1;
             $('#firstExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 2:
             MIT.currentExercise = 1;
             MIT.updateValue();
             $('.summation').fadeOut();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
         case 3:
             MIT.currentExercise = 1;
             $('#secondExercise, #buildingSimulationContent').hide();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             MIT.showSummations();
             break;
         case 4:
             MIT.currentExercise = 2;
             $('#secondExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 5:
             MIT.currentExercise = 2;
             MIT.updateValue();
             $('.summation').fadeOut();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
         case 6:
             MIT.currentExercise = 2;
             $('#thirdExercise, #buildingSimulationContent').hide();
             MIT.showSummations();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 7:
             MIT.currentExercise = 3;
             $('#thirdExercise, #buildingSimulationContent').fadeIn();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 8:
             MIT.currentExercise = 3;
             MIT.updateValue();
             $('.summation').fadeOut();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
         case 9:
             MIT.currentExercise = 3;
             $('#conclusion, #buildingSimulationContent').hide();
             MIT.showSummations();
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideUp();
+            $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
     }
 
