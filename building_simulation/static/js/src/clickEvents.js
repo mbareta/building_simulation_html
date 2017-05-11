@@ -143,6 +143,11 @@ if($('.xblock-render').length == 0) {
             highlightedObjectMaterial = block.material;
 
             block.material = materialTypes['HIGHLIGHTED'];
+
+            showAllocationType(block);
+        }
+        else {
+            $('#allocation-container').hide();
         }
     });
 }
@@ -165,4 +170,12 @@ function getObjectUnderMouse(event) {
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+function showAllocationType(block) {
+    var element = getElement(block.mitId);
+    var text = $('[data-type="' + element.type + '"] a').text();
+
+    if (text) $('#allocation-container').text(text).show();
 }
