@@ -231,7 +231,7 @@ MIT.getCommercialValue = function() {
     return data;
 }
 
-MIT.updateValue = function(){
+MIT.updateValue = function(preventNextPage=false){
     var optimalValue = {
         residential: 2967197,
         commercial: 2250000,
@@ -269,9 +269,10 @@ MIT.updateValue = function(){
 
 
     $('#persistentButtonContainer .continue-button').attr('disabled', true);
+
     // finish first exercise
     if(MIT.currentExercise == 1 && residentialValue.monetary/optimalValue.residential > 0.99) {
-        if(MIT.progress === 2) {
+        if(MIT.progress === 2 && !preventNextPage) {
             MIT.nextPage();
         }
         $('#persistentButtonContainer .continue-button').removeAttr('disabled');
@@ -279,7 +280,7 @@ MIT.updateValue = function(){
 
     // finish second exercise
     if(MIT.currentExercise == 2 && commercialValue.monetary/optimalValue.commercial > 0.85) {
-        if(MIT.progress === 5) {
+        if(MIT.progress === 5 && !preventNextPage) {
             MIT.nextPage();
         }
         $('#persistentButtonContainer .continue-button').removeAttr('disabled');
@@ -287,7 +288,7 @@ MIT.updateValue = function(){
 
     // finish third exercise
     if(MIT.currentExercise == 3 && neighborhoodValue/optimalValue.neighborhood > 0.85) {
-        if(MIT.progress === 8) {
+        if(MIT.progress === 8 && !preventNextPage) {
             MIT.nextPage();
         }
         $('#persistentButtonContainer .continue-button').removeAttr('disabled');
@@ -492,7 +493,7 @@ MIT.nextPage = function(event) {
             break;
         case 2:
             MIT.currentExercise = 1;
-            MIT.updateValue();
+            MIT.updateValue(true);
             $('#firstExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
@@ -509,7 +510,7 @@ MIT.nextPage = function(event) {
             break;
         case 5:
             MIT.currentExercise = 2;
-            MIT.updateValue();
+            MIT.updateValue(true);
             $('#secondExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
@@ -528,7 +529,7 @@ MIT.nextPage = function(event) {
             break;
         case 8:
             MIT.currentExercise = 3;
-            MIT.updateValue();
+            MIT.updateValue(true);
             $('#thirdExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
@@ -575,6 +576,8 @@ MIT.previousPage = function(event) {
     MIT.progress--;
     MIT.updateProgress();
 
+    debugger;
+
     switch(MIT.progress) {
         case 0:
             MIT.currentExercise = 0;
@@ -589,7 +592,7 @@ MIT.previousPage = function(event) {
             break;
         case 2:
             MIT.currentExercise = 1;
-            MIT.updateValue();
+            MIT.updateValue(true);
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
@@ -606,7 +609,7 @@ MIT.previousPage = function(event) {
             break;
         case 5:
             MIT.currentExercise = 2;
-            MIT.updateValue();
+            MIT.updateValue(true);
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
@@ -623,7 +626,7 @@ MIT.previousPage = function(event) {
             break;
         case 8:
             MIT.currentExercise = 3;
-            MIT.updateValue();
+            MIT.updateValue(true);
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
             break;
