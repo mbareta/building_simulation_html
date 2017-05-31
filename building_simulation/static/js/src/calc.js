@@ -655,6 +655,26 @@ MIT.resetExercise = function() {
     }, 0);
 }
 
+MIT.resetCurrentExercise = function() {
+    if (MIT.currentExercise === 2) {
+        setSecondExercise();
+
+        setTimeout(function(){
+            buildScene();
+        }, 0);
+    }
+
+    else if (MIT.currentExercise === 1 || MIT.currentExercise === 3) {
+        setSceneElements(true);
+
+        setTimeout(function(){
+            buildScene();
+        }, 0);
+    }
+
+    MIT.updateValue(true);
+}
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
