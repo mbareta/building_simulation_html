@@ -576,8 +576,6 @@ MIT.previousPage = function(event) {
     MIT.progress--;
     MIT.updateProgress();
 
-    debugger;
-
     switch(MIT.progress) {
         case 0:
             MIT.currentExercise = 0;
