@@ -30,6 +30,8 @@ $(document).ready(function(){
     }
 });
 
+$('#persistentButtonContainer .reset').on('click', MIT.resetCurrentExercise);
+
 $('.continue-button').on('click', MIT.nextPage);
 
 $('.back').on('click', MIT.previousPage);

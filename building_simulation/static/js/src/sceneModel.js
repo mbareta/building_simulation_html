@@ -183,6 +183,100 @@ function setSceneElements(reset) {
     return sceneElements;
 };
 
+
+function setSecondExercise() {
+    sceneElements.core = {
+        'firstFloor-1': {
+            mitId: 'firstFloor-1',
+            geometry: { l: 3, h: 5, w: 3, x: 0, y: -0.5, z: 1 },
+            options: { type: 'commercial', multiplier: 1, material: 'DEFAULT' }
+        },
+        'firstFloor-2': {
+            mitId: 'firstFloor-2',
+            geometry: { l: 3, h: 5, w: 3, x: 0, y: -0.5, z: -2 },
+            options: { type: 'commercial', multiplier: 1, material: 'DEFAULT' }
+        },
+        'firstFloor-3': {
+            mitId: 'firstFloor-3',
+            geometry: { l: 3, h: 5, w: 3, x: 0, y: -0.5, z: -5 },
+            options: { type: 'commercial', multiplier: 1, material: 'DEFAULT' }
+        },
+        'firstFloor-4': {
+            mitId: 'firstFloor-4',
+            geometry: { l: 3, h: 5, w: 3, x: -12, y: -0.5, z: 1 },
+            options: { type: 'commercial', multiplier: 1, material: 'DEFAULT' }
+        },
+        'firstFloor-5': {
+            mitId: 'firstFloor-5',
+            geometry: { l: 3, h: 5, w: 3, x: -12, y: -0.5, z: -2 },
+            options: { type: 'commercial', multiplier: 1, material: 'DEFAULT' }
+        },
+        'firstFloor-6': {
+            mitId: 'firstFloor-6',
+            geometry: { l: 3, h: 5, w: 3, x: -12, y: -0.5, z: -5 },
+            options: { type: 'commercial', multiplier: 1, material: 'DEFAULT' }
+        },
+        'firstFloor-7': {
+            mitId: 'firstFloor-7',
+            geometry: { l: 15, h: 5, w: 3, x: -6, y: -0.5, z: 4 },
+            options: { type: 'commercial', multiplier: 3, material: 'DEFAULT' }
+        },
+        'firstFloor-8': {
+            mitId: 'firstFloor-8',
+            geometry: { l: 15, h: 5, w: 3, x: -6, y: -0.5, z: -8 },
+            options: { type: 'commercial', multiplier: 3, material: 'DEFAULT' }
+        },
+        'secondFloor-1': {
+            mitId: 'secondFloor-1',
+            type: 'HIGH_END_RESIDENTIAL',
+            geometry: { l: 3, h: 4, w: 6, x: 0, y: 4.25, z: -0.5 },
+            options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
+        },
+        'secondFloor-2': {
+            mitId: 'secondFloor-2',
+            type: 'HIGH_END_RESIDENTIAL',            
+            geometry: { l: 3, h: 4, w: 6, x: 0, y: 4.25, z: -6.5 },
+            options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
+        },
+        'secondFloor-3': {
+            mitId: 'secondFloor-3',
+            type: 'HIGH_END_RESIDENTIAL',            
+            geometry: { l: 3, h: 4, w: 6, x: -12, y: 4.25, z: 2.5 },
+            options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
+        },
+        'secondFloor-4': {
+            mitId: 'secondFloor-4',
+            type: 'HIGH_END_RESIDENTIAL',        
+            geometry: { l: 3, h: 4, w: 6, x: -12, y: 4.25, z: -3.5 },
+            options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
+        },
+        'secondFloor-5': {
+            mitId: 'secondFloor-5',
+            type: 'HIGH_END_RESIDENTIAL',            
+            geometry: { l: 6, h: 4, w: 3, x: -1.5, y: 4.25, z: 4 },
+            options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
+        },
+        'secondFloor-6': {
+            mitId: 'secondFloor-6',
+            type: 'HIGH_END_RESIDENTIAL',            
+            geometry: { l: 6, h: 4, w: 3, x: -7.5, y: 4.25, z: 4 },
+            options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
+        },
+        'secondFloor-7': {
+            mitId: 'secondFloor-7',
+            type: 'AFFORDABLE',            
+            geometry: { l: 6, h: 4, w: 3, x: -4.5, y: 4.25, z: -8 },
+            options: { type: 'residential', multiplier: 1, material: 'AFFORDABLE' }
+        },
+        'secondFloor-8': {
+            mitId: 'secondFloor-8',
+            type: 'AFFORDABLE',                        
+            geometry: { l: 6, h: 4, w: 3, x: -10.5, y: 4.25, z: -8 },
+            options: { type: 'residential', multiplier: 1, material: 'AFFORDABLE' }
+        }
+    };
+}
+
 setSceneElements();
 
 // builds scene from scratch

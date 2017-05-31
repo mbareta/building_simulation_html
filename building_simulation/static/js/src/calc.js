@@ -576,8 +576,6 @@ MIT.previousPage = function(event) {
     MIT.progress--;
     MIT.updateProgress();
 
-    debugger;
-
     switch(MIT.progress) {
         case 0:
             MIT.currentExercise = 0;
@@ -653,6 +651,26 @@ MIT.resetExercise = function() {
         buildScene();
         MIT.nextPage();
     }, 0);
+}
+
+MIT.resetCurrentExercise = function() {
+    if (MIT.currentExercise === 2) {
+        setSecondExercise();
+
+        setTimeout(function(){
+            buildScene();
+        }, 0);
+    }
+
+    else if (MIT.currentExercise === 1 || MIT.currentExercise === 3) {
+        setSceneElements(true);
+
+        setTimeout(function(){
+            buildScene();
+        }, 0);
+    }
+
+    MIT.updateValue(true);
 }
 
 function numberWithCommas(x) {

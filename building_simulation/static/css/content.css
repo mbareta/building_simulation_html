@@ -98,7 +98,8 @@
   padding: 20px 60px !important;
 }
 
-.building_simulation_block button.back {
+.building_simulation_block button.back,
+.building_simulation_block #persistentButtonContainer .reset {
   margin-right: 1em;
 }
 
