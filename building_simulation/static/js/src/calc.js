@@ -191,6 +191,27 @@ MIT._getResidentialCount = function() {
     return { x: x, y: y };
 }
 
+MIT._allUnitsAllocated = function(unitType = 'commercial') {
+    var count = 0;
+
+    for(var mitId in sceneElements.core) {
+        var element = sceneElements.core[mitId];
+
+        if(element && element.options.type === unitType && element.type) {
+            count++;
+        }
+    }
+
+    return count === 8;
+}
+
+// returns true when residential externality is at maximum value - 4 high end and 4 affordable units
+MIT._isResidentialExternalityMaximal = function() {
+    var counts = MIT._getResidentialCount();
+
+    return counts.x === 4 && counts.y === 4;
+}
+
 MIT.getResidentialValue = function() {
     var data = MIT._getResidentialCount();
     var x = data.x;
@@ -236,13 +257,14 @@ MIT.updateValue = function(preventNextPage=false){
         residential: 2967197,
         commercial: 2250000,
         total: 5217197,
-        neighborhoodMonetary: 5217197, // same as total
+        neighborhoodMonetary: 5190000,
         neighborhoodSocial: 5650000,
-        neighborhood: 9077143 //16452197
+        neighborhood: 9077143
     };
 
     var residentialValue = MIT.getResidentialValue();
     var commercialValue = MIT.getCommercialValue();
+
     var neighborhoodValue = residentialValue.total + commercialValue.total;
     var neighborhoodMonetaryValue = residentialValue.monetary + commercialValue.monetary;
     var neighborhoodSocialValue = residentialValue.social + commercialValue.social;
@@ -279,7 +301,7 @@ MIT.updateValue = function(preventNextPage=false){
     }
 
     // finish second exercise
-    if(MIT.currentExercise == 2 && commercialValue.monetary/optimalValue.commercial > 0.85) {
+    if(MIT.currentExercise == 2 && commercialValue.monetary/optimalValue.commercial >= 0.9 && MIT._allUnitsAllocated('commercial')) {
         if(MIT.progress === 5 && !preventNextPage) {
             MIT.nextPage();
         }
@@ -287,7 +309,7 @@ MIT.updateValue = function(preventNextPage=false){
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 3 && neighborhoodValue/optimalValue.neighborhood > 0.85) {
+    if(MIT.currentExercise == 3 && commercialValue.total/optimalValue.neighborhoodMonetary >= 0.9 && MIT._allUnitsAllocated('commercial') && MIT._allUnitsAllocated('residential') && MIT._isResidentialExternalityMaximal()) {
         if(MIT.progress === 8 && !preventNextPage) {
             MIT.nextPage();
         }
