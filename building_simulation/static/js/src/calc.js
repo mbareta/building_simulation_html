@@ -191,6 +191,20 @@ MIT._getResidentialCount = function() {
     return { x: x, y: y };
 }
 
+MIT._allCommercialUnitsAllocated = function() {
+    var count = 0;
+
+    for(var mitId in sceneElements.core) {
+        var element = sceneElements.core[mitId];
+
+        if(element && element.options.type === 'commercial' && element.type) {
+            count++;
+        }
+    }
+
+    return count === 8;
+}
+
 MIT.getResidentialValue = function() {
     var data = MIT._getResidentialCount();
     var x = data.x;
@@ -279,7 +293,7 @@ MIT.updateValue = function(preventNextPage=false){
     }
 
     // finish second exercise
-    if(MIT.currentExercise == 2 && commercialValue.monetary/optimalValue.commercial > 0.85) {
+    if(MIT.currentExercise == 2 && commercialValue.monetary/optimalValue.commercial >= 0.9 && MIT._allCommercialUnitsAllocated()) {
         if(MIT.progress === 5 && !preventNextPage) {
             MIT.nextPage();
         }
@@ -287,7 +301,7 @@ MIT.updateValue = function(preventNextPage=false){
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 3 && neighborhoodValue/optimalValue.neighborhood > 0.85) {
+    if(MIT.currentExercise == 3 && neighborhoodValue/optimalValue.neighborhood >= 0.9 && MIT._allCommercialUnitsAllocated()) {
         if(MIT.progress === 8 && !preventNextPage) {
             MIT.nextPage();
         }
