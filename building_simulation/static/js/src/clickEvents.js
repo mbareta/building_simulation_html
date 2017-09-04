@@ -115,7 +115,7 @@ if($('.xblock-render').length == 0) {
         if (block && block.mitId) {
             var element = getElement(block.mitId);
             if(element &&
-                ((element.options.type === 'residential' && MIT.currentExercise === 1) || (element.options.type === 'commercial' && MIT.currentExercise > 1))
+                ((element.options.type === 'residential' && MIT.currentExercise !== 2) || (element.options.type === 'commercial' && MIT.currentExercise > 1))
             ) {
                 var selector = '#blockMenu' + capitalizeFirstLetter(block.type);
                 $(selector).fadeIn();
