@@ -206,8 +206,8 @@ MIT._allUnitsAllocated = function(unitType = 'commercial') {
 }
 
 // returns true when residential externality is at maximum value - 4 high end and 4 affordable units
-MIT._isResidentialExternalityMaximum = function() {
-    var counts = MIT._getResidentialCount;
+MIT._isResidentialExternalityMaximal = function() {
+    var counts = MIT._getResidentialCount();
 
     return counts.x === 4 && counts.y === 4;
 }
@@ -264,9 +264,10 @@ MIT.updateValue = function(preventNextPage=false){
 
     var residentialValue = MIT.getResidentialValue();
     var commercialValue = MIT.getCommercialValue();
-    var neighborhoodValue = commercialValue.total;
-    var neighborhoodMonetaryValue = commercialValue.monetary;
-    var neighborhoodSocialValue = commercialValue.social;
+
+    var neighborhoodValue = residentialValue.total + commercialValue.total;
+    var neighborhoodMonetaryValue = residentialValue.monetary + commercialValue.monetary;
+    var neighborhoodSocialValue = residentialValue.social + commercialValue.social;
 
     // update floating text
     MIT.updateFloatingText(neighborhoodValue - residentialValue.monetary - commercialValue.monetary);
@@ -286,7 +287,7 @@ MIT.updateValue = function(preventNextPage=false){
     $('#socialNeighborhoodPercent').children().css('width', (Math.round((neighborhoodSocialValue/optimalValue.neighborhoodSocial)*100) + '%'));
 
     $('#neighborhoodValue').text(numeral(neighborhoodValue).format('0,0'));
-    $('#neighborhoodPercent').children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhoodMonetary)*100) + '%'));
+    $('#neighborhoodPercent').children().css('width', (Math.round((neighborhoodValue/optimalValue.neighborhood)*100) + '%'));
 
 
     $('#persistentButtonContainer .continue-button').attr('disabled', true);
@@ -308,7 +309,7 @@ MIT.updateValue = function(preventNextPage=false){
     }
 
     // finish third exercise
-    if(MIT.currentExercise == 3 && neighborhoodValue/optimalValue.neighborhoodMonetary >= 0.9 && MIT._allUnitsAllocated('commercial') && MIT._allUnitsAllocated('residential')) {
+    if(MIT.currentExercise == 3 && commercialValue.total/optimalValue.neighborhoodMonetary >= 0.9 && MIT._allUnitsAllocated('commercial') && MIT._allUnitsAllocated('residential') && MIT._isResidentialExternalityMaximal()) {
         if(MIT.progress === 8 && !preventNextPage) {
             MIT.nextPage();
         }
