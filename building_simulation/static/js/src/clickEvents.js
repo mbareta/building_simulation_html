@@ -2,12 +2,12 @@
 $(document).ready(function(){
     if(MIT.currentExercise > 0) {
         $('#splashResume')
-        .css('visibility', 'initial')
+        .css('display', 'block')
         .on('click', function(event){
             $('#splash, #buildingSimulationContent').fadeOut();
-            $(this).css('visibility', 'hidden');
+            $(this).css('display', 'none');
             $('#splashBegin')
-                .css('visibility', 'initial')
+                .css('display', 'block')
                 .on('click', function(event) {
                     MIT.nextPage(event);
                 });
@@ -22,7 +22,7 @@ $(document).ready(function(){
     }
     else {
         $('#splashBegin')
-        .css('visibility', 'initial')
+        .css('display', 'block')
         .on('click', function(event) {
             MIT.nextPage(event);
             setTimeout(function(){controls.autoRotate = false}, 1000);

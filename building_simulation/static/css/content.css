@@ -76,41 +76,6 @@
   left: unset;
 }
 
-.building_simulation_block button {
-  padding: 6px 60px;
-  margin: 0 auto;
-  font-family: Roboto, Hind;
-  color: #fff;
-  background: transparent;
-  border: 1px solid white;
-  border-radius: 0;
-  box-shadow: 0 0 0;
-  text-shadow: 0 0 0;
-  font-size: 14px;
-  font-size: .875rem;
-  font-family: "Roboto" !important;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 40px;
-}
-
-.building_simulation_block #splash button {
-  padding: 20px 60px !important;
-}
-
-.building_simulation_block button.back,
-.building_simulation_block #persistentButtonContainer .reset {
-  margin-right: 1em;
-}
-
-.building_simulation_block button:hover,
-.building_simulation_block button:focus {
-  color: black;
-  background: white;
-  box-shadow: 0 0 0;
-}
-
 /* SUMMATIONS */
 .building_simulation_block .summation {
   display: none;
