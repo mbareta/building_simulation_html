@@ -48,7 +48,7 @@
 .building_simulation_block #valueBoard {
   display: none;
   left: 20px;
-  bottom: 20px;
+  bottom: 2rem;
   width: 350px;
   padding: 0.5em 1em 0;
 }

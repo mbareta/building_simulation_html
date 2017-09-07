@@ -9,7 +9,7 @@
 {
   display: none !important;
   opacity: 0;
-  visibility: none;
+  visibility: hidden;
 }
 
 .building_simulation_block .chevron {
