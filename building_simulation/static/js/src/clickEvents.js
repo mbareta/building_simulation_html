@@ -4,7 +4,7 @@ $(document).ready(function(){
         $('#splashResume')
         .css('display', 'block')
         .on('click', function(event){
-            $('#splash, #buildingSimulationContent').fadeOut();
+            $('#splash, #buildingSimulationContent').hide();
             $(this).css('display', 'none');
             $('#splashBegin')
                 .css('display', 'block')
@@ -13,7 +13,7 @@ $(document).ready(function(){
                 });
 
             $('#double-click-units').remove(); // remove double-click helper text
-            $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
+            // $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
 
             MIT.previousPage(event);
             MIT.updateValue();
@@ -131,12 +131,25 @@ if($('.xblock-render').length == 0) {
     $('#webgl').on('mousemove', function(event){
         var block = getObjectUnderMouse(event);
 
-        if(highlightedObject) {
+        if (highlightedObject) {
             highlightedObject.material = highlightedObjectMaterial;
             highlightedObject = null;
         }
 
-        if(block && block.mitId && block.type !== 'neighboring') {
+        if (block) {
+            showAllocationType(block);
+        }
+
+        if (block && block.mitId && block.type !== 'neighboring')
+        {
+            // do not highlight when they are disabled
+            if (MIT.currentExercise === 1 && block.type === 'commercial') {
+                return;
+            }
+            else if (MIT.currentExercise === 2 && block.type === 'residential') {
+                return;
+            }
+
             if(block == editObject) {
                 block.material = materialTypes['SELECTED'];
                 return;
@@ -145,8 +158,6 @@ if($('.xblock-render').length == 0) {
             highlightedObjectMaterial = block.material;
 
             block.material = materialTypes['HIGHLIGHTED'];
-
-            showAllocationType(block);
         }
         else {
             $('#allocation-container').hide();
@@ -177,7 +188,17 @@ function capitalizeFirstLetter(string) {
 
 function showAllocationType(block) {
     var element = getElement(block.mitId);
-    var text = $('[data-type="' + element.type + '"] a').text();
+    if (element) {
+        var text = $('[data-type="' + element.type + '"] a').text();
 
-    if (text) $('#allocation-container').text(text).show();
+        if (text) {
+            $('#allocation-container').text(text).show();
+        }
+        else {
+            $('#allocation-container').fadeOut();
+        }
+    }
+    else {
+        $('#allocation-container').fadeOut();
+    }
 }

@@ -420,8 +420,12 @@ MIT.showSummations = function(closeCallback) {
     var commercialCount = MIT._getTypeCount();
     var topHtml = '';
 
-    topHtml += MIT.createHtmlTemplate('High-End Residential', residentialCount.x, 'orange');
-    topHtml += MIT.createHtmlTemplate('Affordable Housing', residentialCount.y, 'yellow');
+    // do not show residential part summations on second part of the exercise
+    if (MIT.currentExercise !== 2) {
+        topHtml += MIT.createHtmlTemplate('High-End Residential', residentialCount.x, 'orange');
+        topHtml += MIT.createHtmlTemplate('Affordable Housing', residentialCount.y, 'yellow');
+    }
+
 
     for(var key in commercialCount) {
         if(commercialCount.hasOwnProperty(key)) {
@@ -480,7 +484,7 @@ MIT.showSummations = function(closeCallback) {
 
     $('#summationTop').html(topHtml);
     $('#summationBottom').html(bottomHtml);
-    $('.summation').fadeIn();
+    $('.summation').show();
 };
 
 MIT.createHtmlTemplate = function(title, count, color) {
@@ -501,6 +505,8 @@ MIT.nextPage = function(event) {
     MIT.progress++;
     MIT.updateProgress();
 
+    $('#allocation-container').hide();
+
     switch(MIT.progress) {
         case 0:
             MIT.currentExercise = 0;
@@ -518,6 +524,7 @@ MIT.nextPage = function(event) {
             MIT.updateValue(true);
             $('#firstExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
+            $('#webgl').fadeIn();
             break;
         case 3:
             MIT.currentExercise = 1;
@@ -526,8 +533,8 @@ MIT.nextPage = function(event) {
             break;
         case 4:
             MIT.currentExercise = 2;
-            $('.summation').hide();
-            $('#secondExercise, #buildingSimulationContent').fadeIn();
+            $('.summation').fadeOut();
+            $('#secondExercise, #buildingSimulationContent').show();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
         case 5:
@@ -535,6 +542,7 @@ MIT.nextPage = function(event) {
             MIT.updateValue(true);
             $('#secondExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
+            $('#webgl').fadeIn();
             break;
         case 6:
             MIT.currentExercise = 2;
@@ -543,8 +551,8 @@ MIT.nextPage = function(event) {
             break;
         case 7:
             MIT.currentExercise = 3;
-            $('.summation').hide();
-            $('#thirdExercise, #buildingSimulationContent').fadeIn();
+            $('.summation').fadeOut();
+            $('#thirdExercise, #buildingSimulationContent').show();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             setSceneElements(true);
             setTimeout(buildScene, 0);
@@ -554,6 +562,7 @@ MIT.nextPage = function(event) {
             MIT.updateValue(true);
             $('#thirdExercise, #buildingSimulationContent').hide();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
+            $('#webgl').fadeIn();
             break;
         case 9:
             MIT.currentExercise = 3;
@@ -562,7 +571,7 @@ MIT.nextPage = function(event) {
             break;
         case 10:
             MIT.currentExercise = 3;
-            $('.summation').hide();
+            $('.summation').fadeOut();
             $('#conclusion, #buildingSimulationContent').show();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
             break;
@@ -598,6 +607,8 @@ MIT.previousPage = function(event) {
     MIT.progress--;
     MIT.updateProgress();
 
+    $('#allocation-container').hide();
+
     switch(MIT.progress) {
         case 0:
             MIT.currentExercise = 0;
@@ -615,6 +626,7 @@ MIT.previousPage = function(event) {
             MIT.updateValue(true);
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
+            $('#webgl').fadeIn();
             break;
         case 3:
             MIT.currentExercise = 1;
@@ -632,6 +644,7 @@ MIT.previousPage = function(event) {
             MIT.updateValue(true);
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
+            $('#webgl').fadeIn();
             break;
         case 6:
             MIT.currentExercise = 2;
@@ -649,6 +662,7 @@ MIT.previousPage = function(event) {
             MIT.updateValue(true);
             $('.summation').fadeOut();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideDown();
+            $('#webgl').fadeIn();
             break;
         case 9:
             MIT.currentExercise = 3;

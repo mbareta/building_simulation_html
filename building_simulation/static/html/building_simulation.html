@@ -1,5 +1,8 @@
 <div class="building_simulation_block mitcre-activity-container">
-  <div id="webgl"></div>
+  <div id="webgl" style="display: none">
+    <div id="allocation-container"></div>
+  </div>
+
   <ul id="activity-progress"></ul>
 
   <div class="summation">
@@ -83,9 +86,9 @@
   </span>
 
   <div id="container">
-    <span id="rotateLeft" class="chevron left"></span>
-    <span id="rotateRight" class="chevron right"></span>
-    <div id="valueBoard">
+    <span id="rotateLeft" class="chevron left" style="display: none"></span>
+    <span id="rotateRight" class="chevron right" style="display: none"></span>
+    <div id="valueBoard" style="display: none">
       <span id="residential" class="value-board-entry">
           TOTAL RESIDENTIAL VALUE ($)
           <span id="residentialValue" class="value-span">
@@ -194,8 +197,6 @@
   <div id="double-click-units">
     DOUBLE-CLICK UNITS
   </div>
-
-  <div id="allocation-container"></div>
 
     {% if scene_model %}
       <script type="text/javascript">
