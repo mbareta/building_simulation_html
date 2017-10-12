@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css?family=Hind:400,700');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+html, body {
+  background-color: black !important;
+}
+
 .xblock-render .building_simulation_block #buildingSimulationContent {
   position: relative;
   width: 100%;
