@@ -13,7 +13,6 @@ $(document).ready(function(){
                 });
 
             $('#double-click-units').remove(); // remove double-click helper text
-            // $('#valueBoard, .chevron, #persistentButtonContainer').slideDown();
 
             MIT.previousPage(event);
             MIT.updateValue();
