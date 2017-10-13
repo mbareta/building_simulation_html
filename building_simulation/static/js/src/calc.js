@@ -151,6 +151,28 @@ MIT.comments = {
             'Keep an eye on your total value. High-end housing residential units are needed to increase the total value.',
             'It is not financially sustainable to construct 8 affordable units. Consider a different mix.'
         ]
+    },
+    residential_part_3: {
+        HIGH_END_RESIDENTIAL: [
+            'There is large demand for high-income residential units in the neighborhood. You will have no trouble finding tenants.',
+            'You have increased your revenues. Demand for high-income residential units has still not been met.',
+            'Excellent allocation!',
+            'Keep track of the total value bar as you continue to allocate units.',
+            '',
+            '',
+            'Consider a mix of affordable and high-income housing to increase the total value of your residential development.',
+            'Consider a mix of affordable and high-income housing to increase the total value of your residential development.'
+        ],
+        AFFORDABLE: [
+            'There is a need for affordable residential units within this neighborhood. You have housed a grateful family.',
+            'You have housed another family. If 6 high-end residential units are allocated at this point then a solution text will come up.',
+            '',
+            'Keep track of the total value bar as you continue to allocate units.',
+            '',
+            'You are at risk of losing money on your real-estate development by including too many affordable units.',
+            'Keep an eye on your total value. High-end housing residential units are needed to increase the total value.',
+            'It is not financially sustainable to construct 8 affordable units. Consider a different mix.'
+        ]
     }
 }
 
@@ -373,7 +395,13 @@ MIT.chooseTooltip = function(blockType) {
     if (blockType === 'HIGH_END_RESIDENTIAL' || blockType === 'AFFORDABLE') {
         var residentialCount = MIT._getResidentialCount();
         var count = blockType === 'HIGH_END_RESIDENTIAL' ? residentialCount.x : residentialCount.y;
-        var comment = MIT.comments.residential[blockType][count];
+
+        if (MIT.currentExercise === 3) {
+            var comment = MIT.comments.residential_part_3[blockType][count - 1];
+        }
+        else {
+            var comment = MIT.comments.residential[blockType][count - 1];
+        }
 
         if(comment !== '') {
             text = comment;
@@ -515,6 +543,7 @@ MIT.nextPage = function(event) {
             break;
         case 1:
             MIT.currentExercise = 1;
+            buildScene();
             $('#splash').hide();
             $('#firstExercise').fadeIn();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
@@ -533,6 +562,7 @@ MIT.nextPage = function(event) {
             break;
         case 4:
             MIT.currentExercise = 2;
+            buildScene();
             $('.summation').fadeOut();
             $('#secondExercise, #buildingSimulationContent').show();
             $('#valueBoard, .chevron, #persistentButtonContainer, #double-click-units').slideUp();
@@ -609,6 +639,8 @@ MIT.previousPage = function(event) {
 
     $('#allocation-container').hide();
 
+    buildScene();
+
     switch(MIT.progress) {
         case 0:
             MIT.currentExercise = 0;
@@ -684,7 +716,6 @@ MIT.resetExercise = function() {
     setSceneElements(true);
 
     setTimeout(function(){
-        buildScene();
         MIT.nextPage();
     }, 0);
 }

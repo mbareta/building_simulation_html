@@ -3,6 +3,7 @@ var segments = 32;
 var materialTypes = {
     DEFAULT: undefined,
     HIGHLIGHTED: new THREE.MeshLambertMaterial({color: 0xAAAAAA, wireframe: true}),
+    DISABLED: new THREE.MeshLambertMaterial({color: 0xAAAAAA}),
     NEIGHBOR: new THREE.MeshLambertMaterial({color: 0x552B2B}),
     SELECTED: new THREE.MeshLambertMaterial({color: 0x555555}),
     FONT: new THREE.MeshPhongMaterial({color: 0xbbbbbb, shininess: 50, emissive: 0x222222}),
@@ -41,7 +42,7 @@ var textures = [
             var url = s3url + textureData.name + '.jpg';
             (new THREE.TextureLoader()).load(url, function(texture){
                 materialTypes[textureData.key] = new THREE.MeshLambertMaterial({map: texture});
-                buildScene();
+                // buildScene();
             });
         })(textureData);
     }
@@ -234,43 +235,43 @@ function setSecondExercise() {
         },
         'secondFloor-2': {
             mitId: 'secondFloor-2',
-            type: 'HIGH_END_RESIDENTIAL',            
+            type: 'HIGH_END_RESIDENTIAL',
             geometry: { l: 3, h: 4, w: 6, x: 0, y: 4.25, z: -6.5 },
             options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
         },
         'secondFloor-3': {
             mitId: 'secondFloor-3',
-            type: 'HIGH_END_RESIDENTIAL',            
+            type: 'HIGH_END_RESIDENTIAL',
             geometry: { l: 3, h: 4, w: 6, x: -12, y: 4.25, z: 2.5 },
             options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
         },
         'secondFloor-4': {
             mitId: 'secondFloor-4',
-            type: 'HIGH_END_RESIDENTIAL',        
+            type: 'HIGH_END_RESIDENTIAL',
             geometry: { l: 3, h: 4, w: 6, x: -12, y: 4.25, z: -3.5 },
             options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
         },
         'secondFloor-5': {
             mitId: 'secondFloor-5',
-            type: 'HIGH_END_RESIDENTIAL',            
+            type: 'HIGH_END_RESIDENTIAL',
             geometry: { l: 6, h: 4, w: 3, x: -1.5, y: 4.25, z: 4 },
             options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
         },
         'secondFloor-6': {
             mitId: 'secondFloor-6',
-            type: 'HIGH_END_RESIDENTIAL',            
+            type: 'HIGH_END_RESIDENTIAL',
             geometry: { l: 6, h: 4, w: 3, x: -7.5, y: 4.25, z: 4 },
             options: { type: 'residential', multiplier: 1, material: 'HIGH_END_RESIDENTIAL' }
         },
         'secondFloor-7': {
             mitId: 'secondFloor-7',
-            type: 'AFFORDABLE',            
+            type: 'AFFORDABLE',
             geometry: { l: 6, h: 4, w: 3, x: -4.5, y: 4.25, z: -8 },
             options: { type: 'residential', multiplier: 1, material: 'AFFORDABLE' }
         },
         'secondFloor-8': {
             mitId: 'secondFloor-8',
-            type: 'AFFORDABLE',                        
+            type: 'AFFORDABLE',
             geometry: { l: 6, h: 4, w: 3, x: -10.5, y: 4.25, z: -8 },
             options: { type: 'residential', multiplier: 1, material: 'AFFORDABLE' }
         }
@@ -289,6 +290,8 @@ function buildScene() {
             return;
         }
     }
+
+    console.log('buildscene');
 
     // remove all blocks from the scene
     var i = scene.children.length;
@@ -310,25 +313,6 @@ function buildScene() {
     }
 }
 
-function updateScene(newModel) {
-    if(!newModel) return;
-
-    var coreElements = sceneElements.core;
-    var newCoreElements = newModel.core;
-
-    for(var newElementId in newCoreElements) {
-        var newElement = newCoreElements[newElementId];
-        var oldElement = coreElements[newElementId]; // old el ID and new el ID will be the same
-
-        if(JSON.stringify(newElement) != JSON.stringify(oldElement)) {
-            rebuildElement(newElement);
-        }
-    }
-
-    sceneElements = newModel;
-    MIT.updateValue();
-}
-
 function getElement(mitId) {
     return sceneElements.core[mitId];
 }
@@ -348,6 +332,12 @@ function addBlock(data) {
     var options = data.options;
 
     var material = materialTypes[data.type] || materialTypes[options.material];
+
+    // render disabled texture for disabled blocks
+    if ((MIT.currentExercise === 1 && options.type === 'commercial') || (MIT.currentExercise === 2 && options.type === 'residential')) {
+        material = materialTypes['DISABLED'];
+    }
+
 
     var blockGeo = new THREE.BoxGeometry(geometry.l, geometry.h, geometry.w, segments, segments, segments);
     var block = new THREE.Mesh(blockGeo, material);
