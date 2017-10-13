@@ -42,7 +42,7 @@ var textures = [
             var url = s3url + textureData.name + '.jpg';
             (new THREE.TextureLoader()).load(url, function(texture){
                 materialTypes[textureData.key] = new THREE.MeshLambertMaterial({map: texture});
-                // buildScene();
+                // buildScene(); // leave this here and uncomment if we have any texture load issues
             });
         })(textureData);
     }
@@ -290,8 +290,6 @@ function buildScene() {
             return;
         }
     }
-
-    console.log('buildscene');
 
     // remove all blocks from the scene
     var i = scene.children.length;
