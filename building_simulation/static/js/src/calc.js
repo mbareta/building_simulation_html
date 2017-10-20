@@ -143,7 +143,7 @@ MIT.comments = {
         ],
         AFFORDABLE: [
             'There is a need for affordable residential units within this neighborhood. You have housed a grateful family.',
-            'You have housed another family. If 6 high-end residential units are allocated at this point then a solution text will come up.',
+            'You have housed another family.',
             'Keep track of the total value bar as you continue to allocate units.',
             '',
             'To increase your total value consider a different mix.',
