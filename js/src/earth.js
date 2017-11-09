@@ -1,11 +1,5 @@
-if($('.xblock-render').length > 0) {
-    var width = 600;
-    var height = 300;
-}
-else {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-}
+var width = window.innerWidth;
+var height = window.innerHeight;
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();

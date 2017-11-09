@@ -1,12 +1,39 @@
-.building_simulation_block {
-  position: inherit;
-  height: 540px;
+* {
+  font-family: Hind;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.xblock-render .building_simulation_block #webgl {
-  position: absolute;
-  top: 60px;
-  left: 30px;
+button {
+  background: transparent;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 6px 60px;
+  cursor: pointer;
+  border: 1px solid white;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  outline: none;
+}
+button#begin, button.splash-button {
+  padding: 20px 60px;
+  margin: 0 auto;
+}
+button:hover {
+  background: #fff !important;
+  color: black;
+  text-shadow: 0 0 0;
+  box-shadow: 0 0 0 !important;
+}
+button:focus {
+  box-shadow: none !important;
+}
+button:disabled, button:disabled:hover {
+  border-color: gray;
+  color: gray;
 }
 
 .building_simulation_block a {
@@ -14,8 +41,7 @@
   color: white;
 }
 
-.building_simulation_block span, .building_simulation_block a {
-  font-family: Hind;
+.building_simulation_block span {
   color: white;
 }
 

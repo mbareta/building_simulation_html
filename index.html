@@ -1,0 +1,231 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="css/building_simulation.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/progress.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+    <script src="js/lib/jquery-2.2.4.min.js"></script>
+    <script src="/js/lib/three.js"></script>
+    <script src="/js/lib/Detector.js"></script>
+    <script src="/js/lib/OrbitControls.example.js"></script>
+    <script src="/js/lib/numeral.min.js"></script>
+  </head>
+  <body>
+    <div class="building_simulation_block mitcre-activity-container">
+      <div id="webgl" style="display: none">
+        <div id="allocation-container"></div>
+      </div>
+
+      <ul id="activity-progress"></ul>
+
+      <div class="summation">
+        <div class="summation-section">
+          <ul id="summationTop" class="align-bottom"></ul>
+        </div>
+        <hr>
+        <div class="summation-section">
+          <ul id="summationBottom">
+          </ul>
+        </div>
+        <span class="button-container">
+          <button class="back">BACK</button>
+          <button class="continue-button">CONTINUE</button>
+        </span>
+      </div>
+
+      <div id="buildingSimulationContent">
+        <div id="splash">
+          <u>ACTIVITY</u>
+          <h4>Mixed Use and Neighborhood Externalities</h4>
+          <button id="splashBegin" class="splash-button" style="display: none">BEGIN</button>
+          <button id="splashResume" class="splash-button" style="display: none">CONTINUE</button>
+        </div>
+        <div id="firstExercise">
+          <h1>
+            Part 1: Residential Value
+          </h1>
+          <p>
+            You are a real estate owner in Casco Viejo tasked with filling a block of vacant commercial and residential units. There are eight commercial units of various sizes on the main floor, and eight equally-sized residential units on the second floor. Surrounding the block are eight buildings you do not own. This activity proceeds in three parts. In the first part, you will assign uses to the residential units only; in the second part you will assign uses to the commercial units only. In the final part you will consider both residential and commercial uses along with the impact your allocations have on the surrounding neighborhood.
+          </p>
+          <p>
+            Casco Viejo is a transitioning neighborhood with large variation in household income. You, as a real estate developer, are tasked with producing the optimal mix of affordable housing and medium to high income residential housing. Your goal is to maximize the TOTAL value of the residential units.
+          </p>
+          <span class="button-container">
+            <button class="back">BACK</button>
+            <button class="continue-button">CONTINUE</button>
+          </span>
+        </div>
+        <div id="secondExercise">
+          <h1>
+            Part 2: Commercial Value
+          </h1>
+          <p>
+            There are six commercial uses: convenience store, grocery store, local services (post office, laundromat, dentist, etc.), restaurant/bar, tourism-oriented goods (low-quality gift stores), artisan and cultural goods, community services (library, recreation center, meeting space, etc.). Assign uses to the eight available commercial units. Note that the two longer parcels are three times as large and makeup 3 unit. As you add uses, you will receive notices and hints regarding the progress you are making. Keep an eye on your total value as you add use types, some allocations are better than others!
+          </p>
+          <span class="button-container">
+            <button class="back">BACK</button>
+            <button class="continue-button">CONTINUE</button>
+          </span>
+        </div>
+        <div id="thirdExercise">
+          <h1>
+            Part 3: Neighborhood Externalities
+          </h1>
+          <p>
+            The block you are developing is surrounded by twelve additional buildings. Your allocation decisions for both the residential and commercial units has the potential to increase the value of the neighboring buildings. Positive externalities associated with street traffic and residential mix may increase the patronage and use of the neighboring buildings.
+            <br>
+            In this final question, you are tasked with finding an optimal allocation for the residential and commercial uses that maximizes the value of these buildings along with the externalities received by the neighboring buildings.
+          </p>
+          <span class="button-container">
+            <button class="back">BACK</button>
+            <button class="continue-button">CONTINUE</button>
+          </span>
+        </div>
+        <div id="conclusion">
+          <h1>
+            Conclusion
+          </h1>
+          <p>
+            Good work! Your allocation provides the neighborhood with a balance of residential uses, commercial opportunities as well as public services and amenities.
+          </p>
+          <button id="finish">FINISH</button>
+          <button id="conclusionReset">START OVER</button>
+        </div>
+      </div>
+      <span id="persistentButtonContainer" class="button-container" style="display: none;">
+        <button class="back">BACK</button>
+        <button class="reset">RESET</button>
+        <button class="continue-button" disabled>CONTINUE</button>
+      </span>
+
+      <div id="container">
+        <span id="rotateLeft" class="chevron left" style="display: none"></span>
+        <span id="rotateRight" class="chevron right" style="display: none"></span>
+        <div id="valueBoard" style="display: none">
+          <span id="residential" class="value-board-entry">
+              TOTAL RESIDENTIAL VALUE ($)
+              <span id="residentialValue" class="value-span">
+                0
+              </span>
+              <div id="residentialPercent" class="meter blue">
+                <span style="width: 0"></span>
+              </div>
+          </span>
+          <span id="commercial" class="value-board-entry">
+              TOTAL COMMERCIAL VALUE ($)
+              <span id="commercialValue" class="value-span">
+                0
+              </span>
+              <div id="commercialPercent" class="meter blue">
+                <span style="width: 0"></span>
+              </div>
+          </span>
+          <span id="neighborhood" class="value-board-entry">
+              MONETARY VALUE ($)
+              <span id="monetaryNeighborhoodValue" class="value-span">
+                0
+              </span>
+              <div id="monetaryNeighborhoodPercent" class="meter">
+                <span style="width: 0"></span>
+              </div>
+              <br>
+              SOCIAL VALUE ($)
+              <span id="socialNeighborhoodValue" class="value-span">
+                0
+              </span>
+              <div id="socialNeighborhoodPercent" class="meter">
+                <span style="width: 0"></span>
+              </div>
+              <br>
+              TOTAL NEIGHBORHOOD VALUE ($)
+              <span id="neighborhoodValue" class="value-span">
+                0
+              </span>
+              <div id="neighborhoodPercent" class="meter blue">
+                <span style="width: 0"></span>
+              </div>
+          </span>
+        </div>
+
+        <div id="blockMenuResidential">
+          <div id="selectTypeTitle">
+            <b>SELECT TO APPLY</b>
+          </div>
+
+          <div data-type="HIGH_END_RESIDENTIAL" data-color="rgb(155, 69, 33)" class="blockMenuResidentialItem">
+            <span class="menu-label orange">
+              <a>High-End Residential</a>
+            </span>
+          </div>
+
+          <div data-type="AFFORDABLE" data-color="rgb(191, 144, 0)" class="blockMenuResidentialItem">
+            <span class="menu-label yellow">
+              <a>Affordable Housing</a>
+            </span>
+          </div>
+        </div>
+
+
+        <div id="blockMenuCommercial">
+          <div id="selectTypeTitle">
+            <b>SELECT TO APPLY</b>
+          </div>
+
+          <div data-type="CONVENIENCE" class="blockMenuCommercialItem">
+            <span class="menu-label blue">
+              <a>Local convenience</a>
+            </span>
+          </div>
+
+          <div data-type="GROCERY" class="blockMenuCommercialItem">
+            <span class="menu-label lightblue">
+              <a>Local grocery</a>
+            </span>
+          </div>
+
+          <div data-type="LOCAL" class="blockMenuCommercialItem">
+            <span class="menu-label lightbrown">
+              <a>Local service</a>
+            </span>
+          </div>
+
+          <div data-type="RESTAURANT" class="blockMenuCommercialItem">
+            <span class="menu-label brown"><a>Restaurant / Bar</a></span>
+          </div>
+
+          <div data-type="TOURISM" class="blockMenuCommercialItem">
+            <span class="menu-label deepblue"><a>Tourism-oriented low-quality goods</a></span>
+          </div>
+
+          <div data-type="ARTISAN" class="blockMenuCommercialItem">
+            <span class="menu-label green"><a>Artisan and cultural goods</a></span>
+          </div>
+
+          <div data-type="COMMUNITY" class="blockMenuCommercialItem">
+            <span class="menu-label purple"><a>Community center</a></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="double-click-units">
+        DOUBLE-CLICK UNITS
+      </div>
+    </div>
+
+    <script src="/js/src/building_simulation.js"></script>
+    <script src="/js/src/sceneModel.js"></script>
+    <script src="/js/src/calc.js"></script>
+    <script src="/js/src/clickEvents.js"></script>
+    <script src="/js/src/earth.js"></script>
+    <script type="text/javascript">
+      var currentExercise = 0;
+      var progress = 0;
+      var sceneModel = {};
+    </script>
+  </body>
+</html>
