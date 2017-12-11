@@ -16,7 +16,7 @@
   position: fixed;
   display: none;
   bottom: 15%;
-  background-image: url(https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/icon-chevron-leftright-512px.png);
+  background-image: url(/img/icon-chevron-leftright-512px.png);
   background-size: 100px 50px;
   height: 50px;
   width: 50px;

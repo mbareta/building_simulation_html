@@ -33,7 +33,7 @@ var textures = [
 
 ];
 (function loadAllTextures() {
-    var s3url = 'https://s3.amazonaws.com/mit-cre-assets/building_simulation/';
+    var s3url = '/img/';
 
     for (var i = textures.length - 1; i >= 0; i--) {
         var textureData = textures[i];

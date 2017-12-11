@@ -21,7 +21,7 @@ html, body {
 }
 
 .building_simulation_block #buildingSimulationContent {
-  background: url("https://s3-us-west-2.amazonaws.com/mit-cre-edx/xblocks/building_simulation/bg-static-19-activity.jpg");
+  background: url("/img/bg-static-19-activity.jpg");
   position: fixed;
   top: 0;
   left: 0;

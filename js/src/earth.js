@@ -49,7 +49,7 @@ $(function () {
 
     // load font and draw text
     var loader = new THREE.FontLoader();
-    loader.load( 'https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/optimer_regular.typeface.json', function (font) {
+    loader.load( '/js/optimer_regular.typeface.json', function (font) {
         textSettings.font = font;
 
         // build scene after the font is loaded
@@ -69,7 +69,7 @@ $(function () {
 
     // define functions below
     function createGround() {
-        var texture = new THREE.TextureLoader().load('https://s3.amazonaws.com/mit-cre/Building+Simulation+Assets/floor.png');
+        var texture = new THREE.TextureLoader().load('/img/floor.png');
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
 
